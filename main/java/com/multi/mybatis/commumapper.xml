@@ -4,13 +4,51 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.multi.mapper.CommuMapper">
 
+<!-- 기본 select -->
 	<select id="select" parameterType="int" resultType="commuVO">
-		SELECT * FROM
-		commu WHERE id=#{id}
+		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
+		FROM commu cm
+		INNER JOIN cust cu ON cm.uid=cu.id
+		WHERE cm.id=#{id};
 	</select>
 	<select id="selectall" resultType="commuVO">
 		SELECT * FROM commu
 	</select>
+	<select id="selectlist" resultType="commuVO">
+		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
+		FROM commu cm
+		INNER JOIN cust cu ON cm.uid=cu.id;
+	</select>
+	<select id="selectloc" resultType="locVO">
+		SELECT DISTINCT(location) FROM commu;
+	</select>
+	
+<!-- Type별 개수-->
+	<select id="selectallcnt" resultType="int">
+		SELECT COUNT(*) FROM commu;
+	</select>
+	<select id="selectcnt" resultType="int">
+		SELECT COUNT(*) FROM commu
+		WHERE type=#{type};
+	</select>
+
+<!-- Type별 목록-->
+	<select id="selectbytype" parameterType="String" resultType="commuVO">
+		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
+		FROM commu cm
+		INNER JOIN cust cu ON cm.uid=cu.id
+		WHERE cm.type=#{type};	
+	</select>
+	
+<!-- Location별 목록-->
+	<select id="selectbyloc" parameterType="String" resultType="commuVO">
+		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
+		FROM commu cm
+		INNER JOIN cust cu ON cm.uid=cu.id
+		WHERE cm.location=#{location};
+	</select>
+	
+	
 	<insert id="insert" parameterType="commuVO">
 		INSERT INTO commu VALUES(NULL, #{uid}, #{type}, #{title}, #{content}, CURDATE(), #{location}, #{imgname}, DEFAULT)
 	</insert>
