@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.multi.frame.Biz;
 import com.multi.mapper.CommuMapper;
 import com.multi.vo.CommuVO;
+import com.multi.vo.LocVO;
 
 @Service("commubiz")
 public class CommuBiz implements Biz<Integer, CommuVO>{
@@ -38,6 +39,30 @@ public class CommuBiz implements Biz<Integer, CommuVO>{
 	@Override
 	public List<CommuVO> get() throws Exception {
 		return dao.selectall();
+	}
+	
+	public List<CommuVO> getlist() throws Exception{
+		return dao.selectlist();
+	}
+	
+	public int getallcnt() throws Exception{
+		return dao.selectallcnt();
+	}
+	
+	public int getcnt(String type) throws Exception{
+		return dao.selectcnt(type);
+	}
+	
+	public List<LocVO> getloc() throws Exception{
+		return dao.selectloc();
+	}
+	
+	public List<CommuVO> getbytype(String type) throws Exception{
+		return dao.selectbytype(type);
+	}
+	
+	public List<CommuVO> getbyloc(String location) throws Exception{
+		return dao.selectbyloc(location);
 	}
 
 }

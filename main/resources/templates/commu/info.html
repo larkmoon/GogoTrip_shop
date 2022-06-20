@@ -40,8 +40,38 @@
 
 			<!--  
 <!----- Sidebar Start! ------>		     
-      <div class="col-lg-4 sidebar ftco-animate" th:insert="${right} ? ${right} : right" ></div>
-<!----- Sidebar End ------>		 
+       <div class="col-lg-4 sidebar ftco-animate">
+          <div class="sidebar-box">
+          	<p><a href="/community/add" class="btn btn-primary py-2 px-3">NEW POST</a></p>
+          </div>         
+            <div class="sidebar-box">
+              <form action="#" class="search-form">
+                <div class="form-group">
+                  <span class="icon ion-ios-search"></span>
+                  <input type="text" class="form-control" placeholder="Search...">
+                </div>
+              </form>
+            </div>
+            <div class="sidebar-box ftco-animate">
+            	<h3 class="heading">Categories</h3>
+              <ul class="categories">
+              	<li><a href="#">ALL <span th:text="'('+${allcnt}+')'"></span></a></li>
+                <li><a href="#">여행 정보 <span th:text="'('+${infocnt}+')'"></span></a></li>
+                <li><a href="#">여행 후기 <span th:text="'('+${rvcnt}+')'"></span></a></li>
+                <li><a href="#">여행 관련 추천<span th:text="'('+${reccnt}+')'"></span></a></li>
+              </ul>
+            </div>
+            
+            <div class="sidebar-box ftco-animate">
+              <h3 class="heading">지역으로 찾기</h3>
+              <div class="tagcloud">
+                <a href="#" class="tag-cloud-link"  th:each="l : ${loclist}" th:text="${l.location}"></a>
+              </div>
+            </div>
+
+            
+        </div>
+
         </div>
       </div>
     </section> <!-- .section -->

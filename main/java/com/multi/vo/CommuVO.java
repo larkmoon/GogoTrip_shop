@@ -51,6 +51,22 @@ public class CommuVO {
 		this.imgname = imgname;
 		this.mf = mf;
 	}
+
+	public CommuVO(int id, String uid, String uname, String type, String title, String content, Date regdate,
+			String location, String imgname, int views) {
+		super();
+		this.id = id;
+		this.uid = uid;
+		this.uname = uname;
+		this.type = type;
+		this.title = title;
+		this.content = content;
+		this.regdate = regdate;
+		this.location = location;
+		this.imgname = imgname;
+		this.views = views;
+	}
+	
 	
 
 	

@@ -5,30 +5,25 @@
           
 		     <div class="row justify-content-center mb-5 pb-3">
 		        <div class="col-md-7 heading-section ftco-animate text-center">		         
-		          	<h2 class="mb-4">Our satisfied customer says</h2>
-		        	  <span class="subheading">Yuna Kim</span>
-		         	 <p>2022-06-17</p>
+		          	<h2 class="mb-4" th:text="${dpost.title}"></h2>
+		        	  <span class="subheading" th:text="${dpost.uname}"></span>
+		         	 <p th:text="${#dates.format(dpost.regdate, 'yyyy-MM-dd')}"></p>
 		         	<div class="tagcloud">
-		                <a href="#" class="tag-cloud-link">수정</a>
+		                <a th:href="'/community/update?id='+${dpost.id}" class="tag-cloud-link">수정</a>
 		                <a href="#" class="tag-cloud-link">삭제</a>
               		</div>
 		        </div>
-
 	         </div>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et. Dolore perferendis, enim praesentium omnis, iste doloremque quia officia optio deserunt molestiae voluptates soluta architecto tempora.</p>
-            <p>
+	         
               <img src="/images/image_1.jpg" alt="" class="img-fluid">
-            </p>
-            <p>Molestiae cupiditate inventore animi, maxime sapiente optio, illo est nemo veritatis repellat sunt doloribus nesciunt! Minima laborum magni reiciendis qui voluptate quisquam voluptatem soluta illo eum ullam incidunt rem assumenda eveniet eaque sequi deleniti tenetur dolore amet fugit perspiciatis ipsa, odit. Nesciunt dolor minima esse vero ut ea, repudiandae suscipit!</p>
+              <p th:text="${dpost.content}"><p>
+              
             <div class="tag-widget post-tag-container mb-5 mt-5">
               <div class="tagcloud">
-                <a href="#" class="tag-cloud-link">Life</a>
-                <a href="#" class="tag-cloud-link">Sport</a>
-                <a href="#" class="tag-cloud-link">Tech</a>
-                <a href="#" class="tag-cloud-link">Travel</a>
+                <a class="tag-cloud-link" th:text="${dpost.location}"></a>
               </div>
             </div>
+            
 		</div>
        </div>
      </div>
