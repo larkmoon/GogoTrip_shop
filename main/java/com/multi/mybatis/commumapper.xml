@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.CommuMapper">
+
+	<select id="select" parameterType="int" resultType="commuVO">
+		SELECT * FROM
+		commu WHERE id=#{id}
+	</select>
+	<select id="selectall" resultType="commuVO">
+		SELECT * FROM commu
+	</select>
+	<insert id="insert" parameterType="commuVO">
+		INSERT INTO commu VALUES(NULL, #{uid}, #{type}, #{title}, #{content}, CURDATE(), #{location}, #{imgname}, DEFAULT)
+	</insert>
+	<update id="update" parameterType="commuVO">
+		UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=#{location}, imgname=#{imgname}
+		WHERE id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		DELETE FROM commu WHERE id=#{id}
+	</delete>
+
+</mapper>
+
+
+
+
+
+

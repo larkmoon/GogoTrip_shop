@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.MarkerMapper">
+
+	<select id="select" parameterType="int" resultType="markerVO">
+		SELECT * FROM
+		marker WHERE id=#{id}
+	</select>
+	<select id="selectall" resultType="markerVO">
+		SELECT * FROM marker
+	</select>
+	<insert id="insert" parameterType="markerVO">
+		INSERT INTO marker VALUES(NULL, #{bid}, #{name}, #{lat}, #{longt})
+	</insert>
+	<update id="update" parameterType="markerVO">
+		UPDATE marker SET name=#{name}, lat=#{lat}, longt=#{longt} WHERE id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		DELETE FROM marker WHERE id=#{id}
+	</delete>
+
+</mapper>
+
+
+
+
+
+
