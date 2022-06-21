@@ -3,6 +3,7 @@ package com.multi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +14,17 @@ import com.multi.biz.CommuBiz;
 import com.multi.frame.Util;
 import com.multi.vo.CommuVO;
 import com.multi.vo.LocVO;
+import com.multi.vo.TypeVO;
 
 @Controller
 @RequestMapping("/community")
 public class CommuController {
+	
+	@Value("${admindir}")
+	String admindir;
+	
+	@Value("${userdir}")
+	String userdir;
 	
 	@Autowired
 	CommuBiz biz;
@@ -88,7 +96,7 @@ public class CommuController {
 		obj.setImgname(imgname);
 		try {
 			biz.register(obj);
-			Util.saveFile(mf, userdir);
+			Util.saveFile(obj.getMf(), admindir, userdir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -112,10 +120,37 @@ public class CommuController {
 		try {
 			CommuVO obj = biz.get(id);
 			m.addAttribute("dpost", obj);
+			List<TypeVO> typelist = biz.gettype();
+			m.addAttribute("typelist", typelist);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		m.addAttribute("center", "commu/update");
 		return "index";
+	}
+	
+	@RequestMapping("/updateimpl")
+	public String updateimpl(MultipartFile mf, int id, CommuVO obj) {
+		String iname = obj.getMf().getOriginalFilename();
+		if(!(iname.equals(""))) {
+			obj.setImgname(iname);
+			Util.saveFile(obj.getMf(), admindir, userdir);
+		}
+		try {
+			biz.modify(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:detail?id=" + obj.getId();
+	}
+	
+	@RequestMapping("/delete")
+	public String delete(Model m, int id) {
+		try {
+			biz.remove(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:";
 	}
 }

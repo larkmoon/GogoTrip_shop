@@ -1,30 +1,47 @@
-  <section class="ftco-section ftco-degree-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 ftco-animate">
-          
+<script>
+	$(function(){
+		$('#btn_cmdelete').click(function(){
+			var id = $('input[name="id"]').val();
+			var c = confirm('글을 삭제하시겠습니까?');
+			
+			if(c == true){
+				location.href = 'delete?id=' + id;
+			}
+			
+
+		});
+	});
+</script>
+<section class="ftco-section ftco-degree-bg">
+  <div class="container">
+     <div class="row">
+         <div class="col-lg-8 ftco-animate">
+         
 		     <div class="row justify-content-center mb-5 pb-3">
+		    	 <div>
+		    	 	<input type="hidden" th:value="${dpost.id}" name="id">
+		    	 </div>
 		        <div class="col-md-7 heading-section ftco-animate text-center">		         
 		          	<h2 class="mb-4" th:text="${dpost.title}"></h2>
 		        	  <span class="subheading" th:text="${dpost.uname}"></span>
 		         	 <p th:text="${#dates.format(dpost.regdate, 'yyyy-MM-dd')}"></p>
 		         	<div class="tagcloud">
-		                <a th:href="'/community/update?id='+${dpost.id}" class="tag-cloud-link">수정</a>
-		                <a href="#" class="tag-cloud-link">삭제</a>
-              		</div>
+		                <a id="btn_cmupdate" th:href="'/community/update?id='+${dpost.id}" class="tag-cloud-link">수정</a>
+		                <a id="btn_cmdelete" href="#" class="tag-cloud-link">삭제</a>
+	             		</div>
 		        </div>
 	         </div>
-	         
-              <img src="/images/image_1.jpg" alt="" class="img-fluid">
-              <p th:text="${dpost.content}"><p>
-              
+         
+             <img th:if="${dpost.imgname != null}" th:src="'/img/'+${dpost.imgname}" class="img-fluid">
+             <p th:text="${dpost.content}"><p>
+             
             <div class="tag-widget post-tag-container mb-5 mt-5">
-              <div class="tagcloud">
-                <a class="tag-cloud-link" th:text="${dpost.location}"></a>
-              </div>
+	             <div class="tagcloud">
+	               <a class="tag-cloud-link" th:text="${dpost.location}"></a>
+	             </div>
             </div>
-            
+           
 		</div>
-       </div>
-     </div>
- </section> <!-- .section -->
+    </div>
+ </div>
+</section> <!-- .section -->

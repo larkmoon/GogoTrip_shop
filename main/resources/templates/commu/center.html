@@ -19,8 +19,10 @@
           <div class="col-lg-8 ftco-animate" th:each="p: ${postlist}">
 			<div class="row">					
 				<div class="col-md-12 d-flex ftco-animate">
-		         		   <div class="blog-entry align-self-stretch d-md-flex">
-		              <a href="blog-single.html" class="block-20" style="background-image: url('/images/image_1.jpg');">
+		         	<div class="blog-entry align-self-stretch d-md-flex">
+		              <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:if="${p.imgname != null}" th:style="'background-image:url('+'/img/'+${p.imgname}+');'">
+		              </a>
+		              <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:unless="${p.imgname != null}" style="background-image:url(/img/commu_basic.png)">
 		              </a>
 		              <div class="text d-block pl-md-4">
 		              	<div class="meta mb-3">

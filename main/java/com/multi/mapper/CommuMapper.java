@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.multi.vo.CommuVO;
 import com.multi.vo.LocVO;
+import com.multi.vo.TypeVO;
 
 @Repository
 @Mapper
@@ -20,6 +21,7 @@ public interface CommuMapper {
 	public int selectallcnt() throws Exception;
 	public int selectcnt(String type) throws Exception;
 	public List<LocVO> selectloc() throws Exception;
+	public List<TypeVO> selecttype() throws Exception;
 	public List<CommuVO> selectbytype(String type) throws Exception;
 	public List<CommuVO> selectbyloc(String location) throws Exception;
 }
