@@ -22,6 +22,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectloc" resultType="locVO">
 		SELECT DISTINCT(location) FROM commu;
 	</select>
+	<select id="selecttype" resultType="typeVO">
+		SELECT DISTINCT(type) FROM commu;
+	</select>
+	
 	
 <!-- Type별 개수-->
 	<select id="selectallcnt" resultType="int">

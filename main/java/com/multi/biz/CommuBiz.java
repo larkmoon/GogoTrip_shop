@@ -9,6 +9,7 @@ import com.multi.frame.Biz;
 import com.multi.mapper.CommuMapper;
 import com.multi.vo.CommuVO;
 import com.multi.vo.LocVO;
+import com.multi.vo.TypeVO;
 
 @Service("commubiz")
 public class CommuBiz implements Biz<Integer, CommuVO>{
@@ -55,6 +56,10 @@ public class CommuBiz implements Biz<Integer, CommuVO>{
 	
 	public List<LocVO> getloc() throws Exception{
 		return dao.selectloc();
+	}
+	
+	public List<TypeVO> gettype() throws Exception{
+		return dao.selecttype();
 	}
 	
 	public List<CommuVO> getbytype(String type) throws Exception{
