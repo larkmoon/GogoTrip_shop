@@ -21,6 +21,10 @@ public class CommuBiz implements Biz<Integer, CommuVO>{
 	public void register(CommuVO v) throws Exception {
 		dao.insert(v);
 	}
+	
+	public void registernoloc(CommuVO v) throws Exception{
+		dao.insertnoloc(v);
+	}
 
 	@Override
 	public void remove(Integer k) throws Exception {
@@ -31,9 +35,20 @@ public class CommuBiz implements Biz<Integer, CommuVO>{
 	public void modify(CommuVO v) throws Exception {
 		dao.update(v);;
 	}
+	
+	public void modifynoloc(CommuVO v) throws Exception{
+		dao.updatenoloc(v);
+	}
 
 	@Override
 	public CommuVO get(Integer k) throws Exception {
+		return dao.select(k);
+	}
+	
+	public CommuVO read(Integer k) throws Exception{
+		CommuVO obj = dao.select(k);
+		CommuVO obj2 = new CommuVO(k, obj.getViews() + 1);
+		dao.increaseviews(obj2);
 		return dao.select(k);
 	}
 
@@ -69,5 +84,10 @@ public class CommuBiz implements Biz<Integer, CommuVO>{
 	public List<CommuVO> getbyloc(String location) throws Exception{
 		return dao.selectbyloc(location);
 	}
+	
+	public List<CommuVO> getbykeyword(CommuVO v) throws Exception{
+		return dao.selectbykeyword(v);
+	}
+
 
 }

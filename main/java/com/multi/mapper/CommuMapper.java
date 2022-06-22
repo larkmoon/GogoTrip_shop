@@ -13,8 +13,10 @@ import com.multi.vo.TypeVO;
 @Mapper
 public interface CommuMapper {
 	public void insert(CommuVO obj) throws Exception;
+	public void insertnoloc(CommuVO obj) throws Exception;
 	public void delete(int id) throws Exception;
 	public void update(CommuVO obj) throws Exception;
+	public void updatenoloc(CommuVO obj) throws Exception;
 	public CommuVO select(int id) throws Exception;
 	public List<CommuVO> selectall() throws Exception;
 	public List<CommuVO> selectlist() throws Exception;
@@ -24,4 +26,6 @@ public interface CommuMapper {
 	public List<TypeVO> selecttype() throws Exception;
 	public List<CommuVO> selectbytype(String type) throws Exception;
 	public List<CommuVO> selectbyloc(String location) throws Exception;
+	public List<CommuVO> selectbykeyword(CommuVO obj) throws Exception;
+	public void increaseviews(CommuVO obj) throws Exception;
 }
