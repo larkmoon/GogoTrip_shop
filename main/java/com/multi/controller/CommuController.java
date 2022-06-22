@@ -100,7 +100,7 @@ public class CommuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:";
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/detail")
@@ -151,7 +151,7 @@ public class CommuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:";
+		return "redirect:/";
 	}
 
 	
