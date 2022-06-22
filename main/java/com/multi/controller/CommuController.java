@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.multi.biz.CommuBiz;
@@ -30,7 +29,7 @@ public class CommuController {
 	@Autowired
 	CommuBiz biz;
 	
-	@RequestMapping("")
+	@RequestMapping("/")
 	public String all(Model m, String type, String loc) {
 		
 		if(type == null && loc == null) {
@@ -172,9 +171,6 @@ public class CommuController {
 		obj.setFrom(from);
 		obj.setKeyword(keyword);
 		List<CommuVO> searchlist = biz.getbykeyword(obj);
-		for (CommuVO c : searchlist) {
-			System.out.println(c);
-		}
 		m.addAttribute("postlist", searchlist);
 		m.addAttribute("center", "commu/center");
 		m.addAttribute("right", "commu/right");
