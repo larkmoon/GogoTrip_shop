@@ -29,7 +29,7 @@ public class CommuController {
 	@Autowired
 	CommuBiz biz;
 	
-	@RequestMapping("")
+	@RequestMapping("/")
 	public String all(Model m, String type, String loc) {
 		
 		if(type == null && loc == null) {
@@ -153,4 +153,18 @@ public class CommuController {
 		}
 		return "redirect:";
 	}
+
+	
+	@RequestMapping("/search")
+	public String search(String from, String keyword, Model m) throws Exception {
+		CommuVO obj = new CommuVO();
+		obj.setFrom(from);
+		obj.setKeyword(keyword);
+		List<CommuVO> searchlist = biz.getbykeyword(obj);
+		m.addAttribute("postlist", searchlist);
+		m.addAttribute("center", "commu/center");
+		m.addAttribute("right", "commu/right");
+		return "index";
+	}
+
 }
