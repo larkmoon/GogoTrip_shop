@@ -84,18 +84,6 @@ public class CommuController {
 		return "index";
 	}
 	
-	@RequestMapping("/detail")
-	public String detail(Model m, int id) {
-		try {
-			CommuVO obj = biz.read(id);
-			m.addAttribute("dpost", obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		m.addAttribute("center", "commu/detail");
-		return "index";
-	}
-	
 	@RequestMapping("/add")
 	public String add(Model m) {
 		m.addAttribute("center", "commu/add");
@@ -107,18 +95,24 @@ public class CommuController {
 		String imgname = obj.getMf().getOriginalFilename();
 		obj.setImgname(imgname);
 		try {
-			
-			if(obj.getLocation().equals("")) {
-				biz.registernoloc(obj);
-			}else {
-				biz.register(obj);
-			}
-
+			biz.register(obj);
 			Util.saveFile(obj.getMf(), admindir, userdir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:";
+	}
+	
+	@RequestMapping("/detail")
+	public String detail(Model m, int id) {
+		try {
+			CommuVO obj = biz.get(id);
+			m.addAttribute("dpost", obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("center", "commu/detail");
+		return "index";
 	}
 	
 	@RequestMapping("/update")
@@ -143,11 +137,7 @@ public class CommuController {
 			Util.saveFile(obj.getMf(), admindir, userdir);
 		}
 		try {
-			if(obj.getLocation().equals("")) {
-				biz.modifynoloc(obj);
-			}else {
-				biz.modify(obj);
-			}			
+			biz.modify(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -163,7 +153,7 @@ public class CommuController {
 		}
 		return "redirect:";
 	}
-		
+
 	
 	@RequestMapping("/search")
 	public String search(String from, String keyword, Model m) throws Exception {
@@ -176,4 +166,5 @@ public class CommuController {
 		m.addAttribute("right", "commu/right");
 		return "index";
 	}
+
 }

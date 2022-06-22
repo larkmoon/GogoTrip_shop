@@ -17,19 +17,17 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectlist" resultType="commuVO">
 		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
 		FROM commu cm
-		INNER JOIN cust cu ON cm.uid=cu.id
-		ORDER BY id DESC; 
+		INNER JOIN cust cu ON cm.uid=cu.id;
 	</select>
 	<select id="selectloc" resultType="locVO">
-		SELECT DISTINCT(location) FROM commu
-		WHERE location != "";
+		SELECT DISTINCT(location) FROM commu;
 	</select>
 	<select id="selecttype" resultType="typeVO">
 		SELECT DISTINCT(type) FROM commu;
 	</select>
 	
 	
-<!-- Type별 개수 select-->
+<!-- Type별 개수-->
 	<select id="selectallcnt" resultType="int">
 		SELECT COUNT(*) FROM commu;
 	</select>
@@ -38,7 +36,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE type=#{type};
 	</select>
 
-<!-- Type별 목록 select-->
+<!-- Type별 목록-->
 	<select id="selectbytype" parameterType="String" resultType="commuVO">
 		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
 		FROM commu cm
@@ -46,7 +44,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE cm.type=#{type};	
 	</select>
 	
-<!-- Location별 목록 select-->
+<!-- Location별 목록-->
 	<select id="selectbyloc" parameterType="String" resultType="commuVO">
 		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
 		FROM commu cm
@@ -54,69 +52,17 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE cm.location=#{location};
 	</select>
 	
-<!-- 제목, 내용에 키워드 포함한 글 select-->
-	<select id="selectbykeyword" parameterType="String" resultType="commuVO">
-		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
-		FROM commu cm
-		INNER JOIN cust cu ON cm.uid=cu.id
-		<choose>
-			<when test="from != null and from.equals('title')">
-				WHERE title LIKE CONCAT('%',#{keyword},'%')
-			</when>
-			<when test="from != null and from.equals('content')">
-				WHERE content LIKE CONCAT('%',#{keyword},'%')
-			</when>
-			<when test="from != null and from.equals('writer')">
-				WHERE name LIKE CONCAT('%',#{keyword},'%')
-			</when>
-		</choose>
-		ORDER BY id DESC;
-	</select>
 	
-	
-<!-- !(Location.equals(""))일 때 insert-->
 	<insert id="insert" parameterType="commuVO">
-		<if test='imgname == ""'>
-			INSERT INTO commu VALUES(NULL, #{uid}, #{type}, #{title}, #{content}, CURDATE(), #{location}, NULL, DEFAULT)
-		</if>
-		<if test='imgname != ""'>
-			INSERT INTO commu VALUES(NULL, #{uid}, #{type}, #{title}, #{content}, CURDATE(), #{location}, #{imgname}, DEFAULT)
-		</if>
+		INSERT INTO commu VALUES(NULL, #{uid}, #{type}, #{title}, #{content}, CURDATE(), #{location}, #{imgname}, DEFAULT)
 	</insert>
-	
-<!-- Location.equals("")일 때 insert-->
-	<insert id="insertnoloc" parameterType="commuVO">
-		<if test='imgname == ""'>
-			INSERT INTO commu VALUES(NULL, #{uid}, #{type}, #{title}, #{content}, CURDATE(), NULL, NULL, DEFAULT)
-		</if>
-		<if test='imgname != ""'>
-			INSERT INTO commu VALUES(NULL, #{uid}, #{type}, #{title}, #{content}, CURDATE(), NULL, #{imgname}, DEFAULT)
-		</if>
-	</insert>
-
-<!-- !(Location.equals(""))일 때 update-->
 	<update id="update" parameterType="commuVO">
 		UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=#{location}, imgname=#{imgname}
 		WHERE id=#{id}
 	</update>
-	
-<!-- Location.equals("")일 때 update-->
-	<update id="updatenoloc" parameterType="commuVO">
-		UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=NULL, imgname=#{imgname}
-		WHERE id=#{id}
-	</update>
-
-<!-- views 증가 update-->
-	<update id="increaseviews" parameterType="commuVO">
-		UPDATE commu SET views=#{views} WHERE id=#{id}
-	</update>
-	
-<!-- Delete -->
 	<delete id="delete" parameterType="int">
 		DELETE FROM commu WHERE id=#{id}
 	</delete>
-	
-
 
 </mapper>
 

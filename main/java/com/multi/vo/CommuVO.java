@@ -27,8 +27,6 @@ public class CommuVO {
 	private String imgname;
 	private int views;
 	private MultipartFile mf;
-	private String from;
-	private String keyword;
 	
 	// INSERT
 	public CommuVO(String uid, String type, String title, String content, String location, String imgname, MultipartFile mf) {
@@ -68,14 +66,6 @@ public class CommuVO {
 		this.imgname = imgname;
 		this.views = views;
 	}
-
-	public CommuVO(int id, int views) {
-		super();
-		this.id = id;
-		this.views = views;
-	}
-	
-	
 	
 	
 
