@@ -118,7 +118,7 @@ public class CommuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:";
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/update")
@@ -161,7 +161,7 @@ public class CommuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:";
+		return "redirect:/";
 	}
 		
 	

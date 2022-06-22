@@ -31,7 +31,7 @@
 		        </div>
 	         </div>
          
-             <img th:if="${dpost.imgname != null}" th:src="'/img/'+${dpost.imgname}" class="img-fluid">
+             <img th:if="${dpost.imgname != null and dpost.imgname != ''}" th:src="'/img/'+${dpost.imgname}" class="img-fluid">
              <p th:text="${dpost.content}"><p>
              
             <div class="tag-widget post-tag-container mb-5 mt-5">

@@ -15,10 +15,10 @@
     <div class="row block-9">
       <div class="col-md-6 order-md-last d-flex">
         <form action="#" class="bg-white p-5 contact-form">
-        <h2 class="mb-4">Join Us</h2>
+        <h2 class="mb-4">나의 정보</h2>
           <div class="form-group">
           	<label>ID: </label>
-            <input type="text" name="id" class="form-control" placeholder="Enter ID">
+            <input type="text" name="id" class="form-control" placeholder="Enter ID" readonly="readonly">
           </div>
           <div class="form-group">
           	<label>Password: </label>
@@ -44,7 +44,10 @@
           </div>
 
           <div class="form-group">
-            <input type="submit" value="JOIN" id="btn_join" class="btn btn-primary py-3 px-5">
+            <input type="submit" value="정보 수정" id="btn_userupdate" class="btn btn-primary py-3 px-5">
+          </div>
+          <div class="form-group">
+            <input type="submit" value="회원 탍퇴" id="btn_userdelete" class="btn btn-primary py-3 px-5">
           </div>
         </form>
       
