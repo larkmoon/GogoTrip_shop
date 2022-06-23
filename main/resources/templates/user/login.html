@@ -1,10 +1,23 @@
+<script>
+$(function(){
+	$('#btn_login').click(function(){
+		$('#form_login').attr({
+			'method':'post',
+			'action':'/loginimpl'
+		});
+		$('#form_login').submit();
+	});
+});
+</script>
+
  <section class="ftco-section contact-section bg-light">
    <div class="container">
    
      <div class="row block-9">
        <div class="col-md-6 order-md-last d-flex">
-         <form action="#" class="bg-white p-5 contact-form">
+         <form id="form_login" class="bg-white p-5 contact-form">
          	<h2 class="mb-4">Login</h2>
+         	<span th:text="${loginmsg}"></span>
            <div class="form-group">
            <label for="uid">ID:</label>
              <input type="text" name="id" id="uid" class="form-control" placeholder="Enter ID">
