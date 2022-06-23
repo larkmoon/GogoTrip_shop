@@ -2,17 +2,23 @@ package com.multi.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.multi.biz.CartBiz;
 import com.multi.biz.CommuBiz;
+import com.multi.biz.CustBiz;
 import com.multi.frame.Util;
 import com.multi.vo.CommuVO;
+import com.multi.vo.CustVO;
 import com.multi.vo.LocVO;
 import com.multi.vo.TypeVO;
 
@@ -29,7 +35,28 @@ public class CommuController {
 	@Autowired
 	CommuBiz biz;
 	
-	@RequestMapping("/")
+	@Autowired
+	CartBiz crtbiz;
+	
+	@Autowired
+	CustBiz cbiz;
+	
+	@ModelAttribute("cartcnt")
+	public int cartcnt(HttpSession session) {
+		int cartcnt = 0;
+		if(session.getAttribute("logincust") != null) {
+			CustVO obj = (CustVO) session.getAttribute("logincust");
+			String uid = obj.getId();
+			try {
+				cartcnt = crtbiz.getcartcnt(uid);			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return cartcnt;
+	}
+	
+	@RequestMapping("")
 	public String all(Model m, String type, String loc) {
 		
 		if(type == null && loc == null) {
@@ -85,20 +112,31 @@ public class CommuController {
 	}
 	
 	@RequestMapping("/detail")
-	public String detail(Model m, int id) {
-		try {
-			CommuVO obj = biz.read(id);
-			m.addAttribute("dpost", obj);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public String detail(Model m, int id, HttpSession session) {
+		Object ss = session.getAttribute("logincust");		
+		if(ss != null) {
+			try {
+				CommuVO obj = biz.read(id);
+				m.addAttribute("logincust", ss);
+				m.addAttribute("dpost", obj);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			m.addAttribute("center", "commu/detail");
+		}else {
+			m.addAttribute("center", "user/login");
 		}
-		m.addAttribute("center", "commu/detail");
+
 		return "index";
 	}
 	
 	@RequestMapping("/add")
-	public String add(Model m) {
-		m.addAttribute("center", "commu/add");
+	public String add(Model m, HttpSession session) {
+		if(session.getAttribute("logincust") == null) {
+			m.addAttribute("center", "user/login");
+		}else {
+			m.addAttribute("center", "commu/add");
+		}
 		return "index";
 	}
 	
@@ -122,16 +160,23 @@ public class CommuController {
 	}
 	
 	@RequestMapping("/update")
-	public String update(Model m, int id) {
-		try {
-			CommuVO obj = biz.get(id);
-			m.addAttribute("dpost", obj);
-			List<TypeVO> typelist = biz.gettype();
-			m.addAttribute("typelist", typelist);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public String update(Model m, int id, HttpSession session) {
+		Object ss = session.getAttribute("logincust");
+		if(ss != null) {			
+			try {
+				CommuVO c = biz.get(id);
+				String uid = c.getUid();
+				CustVO cust = cbiz.get(uid);
+				if(ss.toString().equals(cust.toString())) {					
+					m.addAttribute("dpost", c);
+					List<TypeVO> typelist = biz.gettype();
+					m.addAttribute("typelist", typelist);
+					m.addAttribute("center", "commu/update");
+				}				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
 		}
-		m.addAttribute("center", "commu/update");
 		return "index";
 	}
 	
@@ -155,13 +200,25 @@ public class CommuController {
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(Model m, int id) {
-		try {
-			biz.remove(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "redirect:/";
+	public String delete(Model m, int id, HttpSession session) {
+		Object ss = session.getAttribute("logincust");
+		if(ss != null) {
+			CommuVO c;
+			try {
+				c = biz.get(id);
+				String uid = c.getUid();
+				CustVO cust = cbiz.get(uid);
+				if(cust.toString().equals(ss.toString())) {
+					biz.remove(id);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+				return "redirect:/";
+		}else {
+			m.addAttribute("center", "user/login");
+			return "index";
+		}					
 	}
 		
 	

@@ -18,11 +18,11 @@
     			<div class="col-md-10 mb-5 text-center">
     				<ul class="product-category">
     				    <li>
-    						<a th:if="${allid != null}" th:href="'/shop/?ct='+${allid}" class="active">All</a>
+    						<a th:if="${allid != null}" th:href="@{/shop(ct=${allid})}" class="active">All</a>
     						<a th:unless="${allid != null}" th:href="'/shop/'" class="active">All</a>
     					</li>
     					<li th:each="ct: ${upctlist}">
-    						<a th:href="'/shop/?ct='+${ct.id}" class="active" th:text="${ct.name}">All</a>
+    						<a th:href="@{/shop(ct=${ct.id})}" class="active" th:text="${ct.name}">All</a>
     					</li>
     				</ul>
     			</div>

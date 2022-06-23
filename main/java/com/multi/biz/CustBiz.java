@@ -40,6 +40,10 @@ public class CustBiz implements Biz<String, CustVO> {
 		return dao.selectall();
 	}
 	
+	public CustVO getbyemail(String email) throws Exception {
+		return dao.selectbyemail(email);
+	}
+	
 	public void updatepoint(CustVO obj) throws Exception{
 		dao.updatepoint(obj);
 	}

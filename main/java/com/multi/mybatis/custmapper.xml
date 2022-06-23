@@ -11,6 +11,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectall" resultType="custVO">
 		SELECT * FROM cust
 	</select>
+	<!-- email로 select하기 -->
+	<select id="selectbyemail" parameterType="String" resultType="custVO">
+		SELECT * FROM cust WHERE email=#{email};
+	</select>
 	<insert id="insert" parameterType="custVO">
 		INSERT INTO cust VALUES (#{id}, #{pwd}, #{name}, #{email}, #{phone}, CURDATE(), DEFAULT, #{zip}, #{addrf}, #{addrs})
 	</insert>

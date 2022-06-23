@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 
 <!-- 기본 select -->
 	<select id="select" parameterType="int" resultType="commuVO">
-		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
+		SELECT cm.id, cm.uid, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
 		FROM commu cm
 		INNER JOIN cust cu ON cm.uid=cu.id
 		WHERE cm.id=#{id};
@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM commu
 	</select>
 	<select id="selectlist" resultType="commuVO">
-		SELECT cm.id, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
+		SELECT cm.id, cm.uid, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
 		FROM commu cm
 		INNER JOIN cust cu ON cm.uid=cu.id
 		ORDER BY id DESC; 

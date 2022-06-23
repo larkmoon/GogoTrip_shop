@@ -76,14 +76,16 @@
 	          <li class="nav-item dropdown">
 	              <a class="nav-link dropdown-toggle" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Shop</a>
 	              <div class="dropdown-menu" aria-labelledby="dropdown04">
-	              	<a class="dropdown-item" href="/shop/">ALL</a>
-	              	<a class="dropdown-item" href="/shop/?ct=10">가방</a>
-	              	<a class="dropdown-item" href="/shop/?ct=20">안전｜위생</a>
-	                <a class="dropdown-item" href="/shop/?ct=30">Acc</a>
+	              	<a class="dropdown-item" href="/shop">ALL</a>
+	              	<a class="dropdown-item" href="/shop?ct=10">가방</a>
+	              	<a class="dropdown-item" href="/shop?ct=20">안전｜위생</a>
+	                <a class="dropdown-item" href="/shop?ct=30">Acc</a>
               	  </div>
              </li>
-             <li class="nav-item"><a href="/community/" class="nav-link">Community</a></li>
-	         <li class="nav-item cta cta-colored"><a href="/cart/" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+             <li class="nav-item"><a href="/community" class="nav-link">Community</a></li>
+	         <li class="nav-item cta cta-colored" th:if="${session.logincust != null}">
+	         	<a th:href="@{/shop/cart(id=${session.logincust.id})}" class="nav-link"><span class="icon-shopping_cart" th:text="'['+${cartcnt}+']'"></span></a>
+         	</li>
 	         <li class="nav-item dropdown">
 	              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	              	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill"

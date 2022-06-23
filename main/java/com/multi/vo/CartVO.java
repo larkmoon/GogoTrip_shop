@@ -20,6 +20,11 @@ public class CartVO {
 	public int pid;
 	public int cnt;
 	public Date regdate;
+	public String cname;
+	public String pname;
+	public int price;
+	public String imgname;
+	public int stock;
 	
 	// for insert
 	public CartVO(String uid, int pid, int cnt) {
@@ -36,6 +41,14 @@ public class CartVO {
 		this.pid = pid;
 		this.cnt = cnt;
 	}
+
+	//for Update Cnt
+	public CartVO(int id, int cnt) {
+		super();
+		this.id = id;
+		this.cnt = cnt;
+	}
+	
 	
 	
 	

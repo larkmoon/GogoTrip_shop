@@ -5,8 +5,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.multi.biz.CartBiz;
 import com.multi.biz.CustBiz;
 import com.multi.vo.CustVO;
 
@@ -15,6 +18,24 @@ public class UserController {
 	
 	@Autowired
 	CustBiz cbiz;
+	
+	@Autowired
+	CartBiz crtbiz;
+	
+	@ModelAttribute("cartcnt")
+	public int cartcnt(HttpSession session) {
+		int cartcnt = 0;
+		if(session.getAttribute("logincust") != null) {
+			CustVO obj = (CustVO) session.getAttribute("logincust");
+			String uid = obj.getId();
+			try {
+				cartcnt = crtbiz.getcartcnt(uid);			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return cartcnt;
+	}
 	
 	@RequestMapping("/login")
 	public String login(Model m, String msg) {
@@ -68,6 +89,40 @@ public class UserController {
 	public String findid(Model m) {
 		m.addAttribute("center", "user/findid");
 		return "index";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/findidbyemail")
+	public String findidbyemail(String email) {
+		String result = "";
+		try {
+			CustVO obj = cbiz.getbyemail(email);
+			if(obj != null) {
+				result = obj.getId();
+			}else {
+				result = "0";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/findpwdbyid")
+	public String findpwdbyid(String id) {
+		String result = "";
+		try {
+			CustVO obj = cbiz.get(id);
+			if(obj != null) {
+				result = obj.getPwd();
+			}else {
+				result = "0";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	@RequestMapping("/mypage")

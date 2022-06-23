@@ -6,17 +6,17 @@
   <div class="sidebar-box ftco-animate">
   	<h3 class="heading">카테고리별 보기</h3>
     <ul class="categories">
-      <li><a href="/community/">ALL <span th:text="'('+${allcnt}+')'"></span></a></li>
-      <li><a href="/community/?type=정보">여행 정보 <span th:text="'('+${infocnt}+')'"></span></a></li>
-      <li><a href="/community/?type=후기">여행 후기 <span th:text="'('+${rvcnt}+')'"></span></a></li>
-      <li><a href="/community/?type=추천">여행 관련 추천<span th:text="'('+${reccnt}+')'"></span></a></li>
+      <li><a href="/community">ALL <span th:text="'('+${allcnt}+')'"></span></a></li>
+      <li><a th:href="@{/community(type=정보)}">여행 정보 <span th:text="'('+${infocnt}+')'"></span></a></li>
+      <li><a th:href="@{/community(type=후기)}">여행 후기 <span th:text="'('+${rvcnt}+')'"></span></a></li>
+      <li><a th:href="@{/community(type=추천)}">여행 관련 추천<span th:text="'('+${reccnt}+')'"></span></a></li>
     </ul>
   </div>
   
   <div class="sidebar-box ftco-animate">
     <h3 class="heading">지역별 보기</h3>
     <div class="tagcloud">
-      <a th:href="'/community/?loc='+${l.location}" class="tag-cloud-link"  th:each="l : ${loclist}" th:text="${l.location}"></a>
+      <a th:href="'/community?loc='+${l.location}" class="tag-cloud-link"  th:each="l : ${loclist}" th:text="${l.location}"></a>
     </div>
   </div>
 
