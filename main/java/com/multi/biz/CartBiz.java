@@ -31,6 +31,14 @@ public class CartBiz implements Biz<Integer, CartVO> {
 	public void modify(CartVO v) throws Exception {
 		dao.update(v);		
 	}
+	
+	public void modifycnt(CartVO v) throws Exception{
+		dao.updatecnt(v);
+	}
+	
+	public void modifysameid(CartVO v) throws Exception{
+		dao.updatesameid(v);
+	}
 
 	@Override
 	public CartVO get(Integer k) throws Exception {
@@ -40,6 +48,18 @@ public class CartBiz implements Biz<Integer, CartVO> {
 	@Override
 	public List<CartVO> get() throws Exception {
 		return dao.selectall();
+	}
+	
+	public int getcartcnt(String uid) throws Exception{
+		return dao.selectcartcnt(uid);
+	}
+	
+	public List<CartVO> getbyuid(String uid) throws Exception{
+		return dao.selectbyuid(uid);
+	}
+	
+	public CartVO checkifexists(String uid, int pid) throws Exception{
+		return dao.checkifexists(uid, pid);
 	}
 	
 }

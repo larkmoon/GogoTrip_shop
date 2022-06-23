@@ -23,7 +23,12 @@ function addcart(pid){
 			'pid':pid,
 			'cnt':cnt},
 		success:function(result){
-			$('#myModal').modal();
+			if(result == "1"){
+				$('#myModal').modal();
+			}else{
+				location.href="/login";
+			}
+			
 		}
 	});
 }
@@ -59,6 +64,11 @@ $(document).ready(function(){
 	            }
 	            pricepreview();
 	    });
+	     
+     $('#btn_gocart').click(function(){
+    	 var uid = $('#uid').val();
+    	 location.href='cart?id='+uid;
+     });
 	    
 });
 </script>
@@ -127,7 +137,7 @@ $(document).ready(function(){
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">계속 쇼핑하기</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">주문하러 가기</button>
+        <button type="button" id="btn_gocart" class="btn btn-danger" data-dismiss="modal">주문하러 가기</button>
       </div>
 
     </div>

@@ -26,9 +26,10 @@
 		        	  <span class="subheading" th:text="${dpost.uname}"></span>
 		         	 <p th:text="${#dates.format(dpost.regdate, 'yyyy-MM-dd')}"></p>
 		         	<div class="tagcloud">
-		                <a id="btn_cmupdate" th:href="'/community/update?id='+${dpost.id}" class="tag-cloud-link">수정</a>
-		                <a id="btn_cmdelete" href="#" class="tag-cloud-link">삭제</a>
-	             		</div>
+		                <a id="btn_cmupdate" th:if="${logincust.id == dpost.uid}" th:href="'/community/update?id='+${dpost.id}" class="tag-cloud-link">수정</a>
+		                <a id="btn_cmdelete" th:if="${logincust.id == dpost.uid}" href="#" class="tag-cloud-link">삭제</a>
+	             	</div>
+
 		        </div>
 	         </div>
          

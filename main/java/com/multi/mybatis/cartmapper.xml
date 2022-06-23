@@ -11,11 +11,38 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectall" resultType="cartVO">
 		SELECT * FROM cart
 	</select>
+	<!-- ID별 Cart item 개수 select -->
+	<select id="selectcartcnt" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM cart
+		WHERE uid=#{uid}
+	</select>
+	<!-- UID별 Cart list select-->
+	<select id="selectbyuid" parameterType="String" resultType="cartVO">
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.regdate, p.imgname, p.stock FROM cart ct
+		INNER JOIN cust cu ON ct.uid=cu.id
+		INNER JOIN product p ON ct.pid=p.id
+		WHERE ct.uid=#{uid};
+	</select>
+	<!-- uid, pid로 Cart list select-->
+	<select id="checkifexists" resultType="cartVO">
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.regdate, p.imgname, p.stock FROM cart ct
+		INNER JOIN cust cu ON ct.uid=cu.id
+		INNER JOIN product p ON ct.pid=p.id
+		WHERE ct.uid=#{uid} AND ct.pid=#{pid};
+	</select>
 	<insert id="insert" parameterType="cartVO">
 		INSERT INTO cart VALUES (null,#{uid},#{pid},#{cnt},SYSDATE())
 	</insert>
 	<update id="update" parameterType="cartVO">
 		UPDATE cart SET UID=#{uid}, PID=#{pid}, CNT=#{cnt} WHERE ID=#{id}
+	</update>
+	<!-- cart item cnt update-->
+	<update id="updatecnt" parameterType="cartVO">
+		UPDATE cart SET CNT=#{cnt} WHERE ID=#{id}
+	</update>
+	<!-- uid, pid가 같을 때 cnt만 update-->
+	<update id="updatesameid">
+		UPDATE cart SET CNT=#{cnt} WHERE uid=#{uid} AND pid=#{pid}
 	</update>
 	<delete id="delete" parameterType="int">
 		DELETE FROM cart WHERE ID=#{id}
