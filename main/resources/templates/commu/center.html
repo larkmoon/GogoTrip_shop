@@ -32,44 +32,45 @@
 		       <button id="btn_commusearch" type="submit" class="icon ion-ios-search"> Search</button>		     
 	 	 </form>
 		 <p><a href="/community/add" class="btn btn-primary py-2 px-3">NEW POST</a></p>
+
       </div>
     </div>
-  </div>
-</div>
 
-<section class="ftco-section ftco-degree-bg">
-  <div class="container">
-	<div class="row">
-	    
-<!----- Post List ----->
-	 	<div class="col-lg-8 ftco-animate" th:each="p: ${postlist}">
+    <section class="ftco-section ftco-degree-bg">
+      <div class="container">
+        <div class="row">
+        
+ <!----- Post List ----->
+          <div class="col-lg-8 ftco-animate" th:each="p: ${postlist}">
 			<div class="row">					
 				<div class="col-md-12 d-flex ftco-animate">
-			        <div class="blog-entry align-self-stretch d-md-flex">
-			             <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:if="${p.imgname != null and p.imgname != ''}"
-			             	th:style="'background-image:url('+'/img/'+${p.imgname}+');'">
-			             </a>
-			             <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:unless="${p.imgname != null and p.imgname != ''}"
-			             	style="background-image:url(/img/commu_basic.png)">
-			             </a>
-			            <div class="text d-block pl-md-4">
-			              	<div class="meta mb-3">
-			                  <div th:text="${#dates.format(p.regdate, 'yyyy-MM-dd')}"></div>
-			                  <div th:text="${p.uname}"></div>
-			                  <div th:text="${p.views}+' Views'"></div>
-			                </div>
-			                <h3 class="heading"><a href="#" th:text="${p.title}"></a></h3>
-			                <p th:text="${p.content}"></p>
-			                <p><a th:href="'/community/detail?id='+${p.id}" class="btn btn-primary py-2 px-3">Read more</a></p>
-			            </div>
-			        </div>		            
-			   </div>
-		   </div>
+		         	<div class="blog-entry align-self-stretch d-md-flex">
+		              <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:if="${p.imgname != null}" th:style="'background-image:url('+'/img/'+${p.imgname}+');'">
+		              </a>
+		              <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:unless="${p.imgname != null}" style="background-image:url(/img/commu_basic.png)">
+		              </a>
+		              <div class="text d-block pl-md-4">
+		              	<div class="meta mb-3">
+		                  <div th:text="${#dates.format(p.regdate, 'yyyy-MM-dd')}"></div>
+		                  <div th:text="${p.uname}"></div>
+		                  <div th:text="${views}"></div>
+		                </div>
+		                <h3 class="heading"><a href="#" th:text="${p.title}"></a></h3>
+		                <p th:text="${p.content}"></p>
+		                <p><a th:href="'/community/detail?id='+${p.id}" class="btn btn-primary py-2 px-3">Read more</a></p>
+		              </div>
+		            </div>		            
+		          </div>
+			</div>
 		</div> <!-- .col-md-8 -->
-	
+
+
+			<!--  
 <!----- Sidebar Start! ------>		     
-	  <div class="col-lg-4 sidebar ftco-animate" th:insert="${right} ? ${right} : right" ></div>
+      <div class="col-lg-4 sidebar ftco-animate" th:insert="${right} ? ${right} : right" ></div>
 <!----- Sidebar End ------>		 
-	</div>
-  </div>
-</section> <!-- .section -->
+        </div>
+      </div>
+    </section> <!-- .section -->
+
+</html>

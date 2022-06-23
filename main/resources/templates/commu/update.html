@@ -2,9 +2,6 @@
 	$(function(){
 		
 		$('#btn_updatepost').click(function(){
-			var tloc = $.trim($('input[name="location"]').val());
-			$('input[name="location"]').val(tloc);
-			
 			$('#form_updatepost').attr({
 				'enctype':'multipart/form-data',
 				'method':'post',
@@ -24,9 +21,6 @@
         <form id="form_updatepost" class="bg-white p-5 contact-form">
         <h2 class="mb-4">글쓰기</h2>
           <div class="form-group">
-          	<input type="hidden" name="id" class="form-control" th:value="${dpost.id}">
-          </div>
-          <div class="form-group">
           	<label for="title">Title: </label>
             <input type="text" name="title" class="form-control" th:value="${dpost.title}">
              <input type="hidden" name="uid" class="form-control" th:value="${dpost.uid}">
@@ -42,13 +36,14 @@
           </div>
 		  <div class="form-group">
 		  	 <label>Content: </label>
-             <textarea name="content" cols="15" rows="15" class="form-control" th:text="${dpost.content}"></textarea>          
+             <textarea name="" id="" cols="15" rows="15" class="form-control" th:text="${dpost.content}"></textarea>          
           </div>
           <div class="form-group">
           	<label>Image: </label>
           	<input type="file" name="mf" class="form-control">
           </div>
           <div class="form-group">
+          	<label>Image: </label>
           	<input type="hidden" name="imgname" th:value="${dpost.imgname}">
           </div>
           <div class="form-group">

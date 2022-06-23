@@ -110,7 +110,7 @@ public class CommuController {
 		m.addAttribute("center", "commu/center");
 		return "index";
 	}
-	
+
 	@RequestMapping("/detail")
 	public String detail(Model m, int id, HttpSession session) {
 		Object ss = session.getAttribute("logincust");		
@@ -130,6 +130,7 @@ public class CommuController {
 		return "index";
 	}
 	
+
 	@RequestMapping("/add")
 	public String add(Model m, HttpSession session) {
 		if(session.getAttribute("logincust") == null) {
@@ -145,19 +146,14 @@ public class CommuController {
 		String imgname = obj.getMf().getOriginalFilename();
 		obj.setImgname(imgname);
 		try {
-			
-			if(obj.getLocation().equals("")) {
-				biz.registernoloc(obj);
-			}else {
-				biz.register(obj);
-			}
-
+			biz.register(obj);
 			Util.saveFile(obj.getMf(), admindir, userdir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:/";
 	}
+	
 	
 	@RequestMapping("/update")
 	public String update(Model m, int id, HttpSession session) {
@@ -188,11 +184,7 @@ public class CommuController {
 			Util.saveFile(obj.getMf(), admindir, userdir);
 		}
 		try {
-			if(obj.getLocation().equals("")) {
-				biz.modifynoloc(obj);
-			}else {
-				biz.modify(obj);
-			}			
+			biz.modify(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -220,7 +212,7 @@ public class CommuController {
 			return "index";
 		}					
 	}
-		
+
 	
 	@RequestMapping("/search")
 	public String search(String from, String keyword, Model m) throws Exception {
@@ -233,4 +225,5 @@ public class CommuController {
 		m.addAttribute("right", "commu/right");
 		return "index";
 	}
+
 }
