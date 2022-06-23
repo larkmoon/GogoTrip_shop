@@ -18,22 +18,6 @@ public class MainController {
 		return "index";
 	}
 	
-	@RequestMapping("/login")
-	public String login(Model m) {
-		m.addAttribute("center", "user/login");
-		return "index";
-	}
-	
-	@RequestMapping("/join")
-	public String join(Model m) {
-		m.addAttribute("center", "user/join");
-		return "index";
-	}
-	
-	@RequestMapping("/findid")
-	public String findid(Model m) {
-		m.addAttribute("center", "user/findid");
-		return "index";
-	}
+
 	
 }

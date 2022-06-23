@@ -50,6 +50,14 @@ public class CustVO {
 		this.addrf = addrf;
 		this.addrs = addrs;
 	}
+
+	// UPDATE POINT
+	public CustVO(String id, int point) {
+		super();
+		this.id = id;
+		this.point = point;
+	}
+	
 	
 	
 	

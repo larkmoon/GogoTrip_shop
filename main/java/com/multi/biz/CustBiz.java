@@ -39,5 +39,9 @@ public class CustBiz implements Biz<String, CustVO> {
 	public List<CustVO> get() throws Exception {
 		return dao.selectall();
 	}
+	
+	public void updatepoint(CustVO obj) throws Exception{
+		dao.updatepoint(obj);
+	}
 
 }

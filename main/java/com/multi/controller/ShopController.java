@@ -34,9 +34,11 @@ public class ShopController {
 				CateVO obj = ctbiz.get(ct);
 				List<ProductVO> dplist;
 				if(obj.getUpid() == null) {
-					dplist = pbiz.getbyupcate(ct);					
+					dplist = pbiz.getbyupcate(ct);
+					
 				}else {
 					dplist = pbiz.getbycate(ct);
+					m.addAttribute("allid", obj.getUpid());
 				}			
 				m.addAttribute("plist", dplist);
 				List<CateVO> dctlist = ctbiz.getbyupcate(ct);
@@ -46,7 +48,7 @@ public class ShopController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		m.addAttribute("upct", ct);
+		
 		m.addAttribute("center", "shop/center");
 		return "index";
 	}
