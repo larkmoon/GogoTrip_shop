@@ -2,13 +2,18 @@ package com.multi.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.multi.biz.CartBiz;
 import com.multi.biz.CateBiz;
 import com.multi.biz.ProductBiz;
+import com.multi.vo.CartVO;
 import com.multi.vo.CateVO;
 import com.multi.vo.ProductVO;
 
@@ -21,6 +26,9 @@ public class ShopController {
 	
 	@Autowired
 	CateBiz ctbiz;
+	
+	@Autowired
+	CartBiz crtbiz;
 	
 	@RequestMapping("/")
 	public String main(Model m, Integer ct) {
@@ -63,6 +71,24 @@ public class ShopController {
 		}
 		m.addAttribute("center", "shop/detail");
 		return "index";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getprice")
+	public int getprice(int qt, int sprice) {
+		int mprice = qt * sprice;
+		return mprice;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/addcart")
+	public void addcart(String uid, int pid, int cnt) {
+		CartVO obj = new CartVO(uid, pid, cnt);
+		try {
+			crtbiz.register(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
