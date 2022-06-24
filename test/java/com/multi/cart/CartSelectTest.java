@@ -17,7 +17,7 @@ class CartSelectTest {
 	void contextLoads() {
 		CartVO obj = null;
 		try {
-			obj = biz.get(4);
+			obj = biz.get(23);
 			System.out.println(obj);
 		} catch (Exception e) {
 			e.printStackTrace();

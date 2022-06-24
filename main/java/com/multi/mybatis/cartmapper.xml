@@ -5,8 +5,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.CartMapper">
 	
 	<select id="select" parameterType="int" resultType="cartVO">
-		SELECT * FROM cart
-		WHERE id=#{id}
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice, ct.regdate, p.imgname, p.stock FROM cart ct
+		INNER JOIN cust cu ON ct.uid=cu.id
+		INNER JOIN product p ON ct.pid=p.id
+		WHERE ct.id=#{id}
 	</select>
 	<select id="selectall" resultType="cartVO">
 		SELECT * FROM cart
@@ -18,14 +20,14 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	<!-- UID별 Cart list select-->
 	<select id="selectbyuid" parameterType="String" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.regdate, p.imgname, p.stock FROM cart ct
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice, ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
 		WHERE ct.uid=#{uid};
 	</select>
 	<!-- uid, pid로 Cart list select-->
 	<select id="checkifexists" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.regdate, p.imgname, p.stock FROM cart ct
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice, ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
 		WHERE ct.uid=#{uid} AND ct.pid=#{pid};
