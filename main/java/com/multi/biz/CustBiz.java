@@ -48,4 +48,12 @@ public class CustBiz implements Biz<String, CustVO> {
 		dao.updatepoint(obj);
 	}
 
+	// yunchanbin
+	public CustVO getemail(String email) throws Exception {
+		return dao.selectemail(email);
+	}
+	
+	public CustVO getphone(String phone) throws Exception {
+		return dao.selectphone(phone);
+	}
 }

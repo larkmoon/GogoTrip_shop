@@ -27,7 +27,7 @@ public class CustVO {
 	
 	// INSERT
 	public CustVO(String id, String pwd, String name, String email, String phone, int zip, String addrf, String addrs) {
-		super();
+		
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
@@ -40,7 +40,7 @@ public class CustVO {
 	
 	// UPDATE(순서 주의! id가 가장 뒤)
 	public CustVO(String pwd, String name, String email, String phone, int zip, String addrf, String addrs, String id) {
-		super();
+		
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
