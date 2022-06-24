@@ -1,0 +1,24 @@
+
+<meta charset="UTF-8">
+
+<script>
+
+$(document).ready(function(){
+
+	var f = $('#f').val();
+	if (f == 0){ 
+		alert('회원가입 완료');
+		location.href='/';
+	}else if(f == 1){
+		alert('가입 실패. 잠시후 다시 가입하세요');
+		location.href='/join';
+	} 
+	
+});
+
+
+
+
+</script>
+
+<input id="f" type="hidden" name="f" th:value="${f}">

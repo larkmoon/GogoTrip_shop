@@ -1,6 +1,6 @@
 <body class="goto-here">
 
-  <section class="ftco-section bg-light">
+ <section class="ftco-section bg-light">
 	<div class="container">
 		<div class="row no-gutters ftco-services">
 		
@@ -34,11 +34,11 @@
 	            </div>
 	        
             <div class="media-body">
-              <h3 class="heading"><a href="/userinfo">회원 정보</a></h3>
+              <h3 class="heading"><a th:href="@{/userinfo(id=${session.logincust.id})}">회원 정보</a></h3>
             </div>
           </div>      
         </div>
-        
+       </div>
       </div>
 </section>
 
