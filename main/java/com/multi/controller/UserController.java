@@ -1,5 +1,7 @@
 package com.multi.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +128,9 @@ public class UserController {
 		return result;
 	}
 	
+	
+	
+	
 	// yunchanbin
 	
 	@RequestMapping("/registerimpl")
@@ -168,20 +173,6 @@ public class UserController {
 		return "index";
 	}
 
-	@RequestMapping("/userdelete")
-	public String userdelete(String id, HttpSession session) {
-		
-		try {
-			if(session != null) {
-				session.invalidate();
-			}
-			cbiz.remove(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		}
-		return "redirect:/";
-	}
 	
 	@RequestMapping("/userupdateimpl")
 	public String userdelete(Model m, CustVO obj) {
@@ -192,5 +183,24 @@ public class UserController {
 			e.printStackTrace();
 		}
 		return "redirect:mypage?id="+obj.getId();
+	}
+	
+	@RequestMapping("userdelete")
+	public String delete(Model m, String id, HttpSession session) {
+		List<Integer> list = null;
+		try {
+			if(session != null) {
+				session.invalidate();
+			}
+			list = cbiz.getUpdlist(id);
+			for (Integer b : list) {
+				cbiz.nullBeforeDelete(b);
+			}
+			cbiz.remove(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/";
 	}
 }

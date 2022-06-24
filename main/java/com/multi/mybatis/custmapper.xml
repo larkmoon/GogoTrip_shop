@@ -37,5 +37,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM cust WHERE phone=#{phone}
 	</select>
 	
+	<!-- for delete: buy.uid -> null -->
+	<select id="selectUpdlist" parameterType="String" resultType="int">
+		SELECT id FROM buy WHERE uid = #{id}
+	</select>
+	<select id="nullBD" parameterType="int">
+		UPDATE buy SET uid=null WHERE id=#{id} 
+	</select>
+	
 	
 </mapper>
