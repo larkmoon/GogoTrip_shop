@@ -1,4 +1,121 @@
+<meta charset="utf-8">
 <script>
+var erroremail = 0;
+var errorphone = 0;
+
+
+function checkemail(email,ck){
+	if(email != ck){
+		$.ajax({
+			url:'checkemail',
+			data:{'email': email},
+			success:function(data){
+				if(data == "0"){
+					if(email == ""){
+						data = "1"
+					}
+					$('#espan').text('');
+				}else if(data == "1"){
+					$('#espan').text('This e-mail is already exist');
+				}
+				erroremail = data;
+			}
+		});
+	}
+}
+function checkphone(phone,ck){
+	if(phone != ck){
+		if(phone.length != 11){
+			$('#pspan').text('Length must be 11');
+			errorphone = 1
+		}else{
+			$.ajax({
+				url:'checkphone',
+				data:{'phone':phone},
+				success:function(data){
+					if(data == "0"){
+						if(phone == ""){
+							data = "1"
+						}
+						$('#pspan').text('');
+					}else if(data == "1"){
+						$('#pspan').text('This number is already exist');
+					}else{
+						$('#pspan').text('Input Number type');
+					}
+					errorphone = data;
+				}
+			});
+		}
+	}
+}
+
+function update(pwd,name,zip,addrf){
+	console.log("email: "+erroremail);
+	console.log("phone: "+errorphone);
+	if(pwd == ""){
+		alert("Input Password");
+		$('#pwd').focus();
+	}else if(name == ""){
+		alert("Input name");
+		$('#name').focus();
+	}else if(erroremail != 0){
+		alert("e-mail Error");
+		$('#email').focus();
+	}else if(errorphone != 0){
+		alert("Phone number Error");
+		$('#id').focus();
+	}else if(zip == ""){
+		alert("Input ZIP");
+		$('#zip').focus();
+	}else if(addrf == ""){
+		alert("Input address");
+		$('#addrf').focus();
+	}
+	else{
+		$('#update_form').attr({
+			'method':'post',
+			'action':'/userupdateimpl'
+		});
+		$('#update_form').submit();
+	}
+}
+
+$(document).ready(function(){
+	$('#update_btn').click(function(){
+		var pwd = $('#pwd').val();
+		var name = $('#name').val();
+		var zip = $('#zip').val();
+		var addrf = $('#addrf').val();
+		update(pwd,name,zip,addrf);
+	});
+	
+	$('#delete_btn').click(function(){
+		var id = $('input[name="id"]').val();
+		var c = confirm('Are you sure you want to delete it?');
+		if (c == true){
+			location.href='/userdelete?id='+id;
+		}
+	});
+	
+	$('#email').blur(function(){
+		var email = $(this).val();
+		var emailck = $('#emailck').val();
+		checkemail(email,emailck);
+	});
+	$('#phone').blur(function(){
+		var phone = $(this).val();
+		var phoneck = $('#phoneck').val();
+		
+		checkphone(phone,phoneck);
+	});
+	
+	
+});
+
+
+
+
 /*
     new daum.Postcode({
         oncomplete: function(data) {
@@ -14,40 +131,51 @@
   
     <div class="row block-9">
       <div class="col-md-6 order-md-last d-flex">
-        <form action="#" class="bg-white p-5 contact-form">
+        <form id="update_form" class="bg-white p-5 contact-form">
         <h2 class="mb-4">나의 정보</h2>
           <div class="form-group">
           	<label>ID: </label>
-            <input type="text" name="id" class="form-control" placeholder="Enter ID" readonly="readonly">
+            <input id="id" type="text" name="id" class="form-control" placeholder="Enter ID"
+             th:value="${custvalue.id}" readonly="readonly">
+            <span id="ispan" class="fmsg"></span>
           </div>
+          
           <div class="form-group">
           	<label>Password: </label>
-            <input type="password" name="pwd" class="form-control" placeholder="Enter Password">
+            <input id="pwd" type="password" name="pwd" class="form-control" placeholder="Enter Password" th:value="${custvalue.pwd}">
           </div>
           <div class="form-group">
           	<label>Name: </label>
-            <input type="text" name="name" class="form-control" placeholder="Enter Name">
-          </div>
-          <div class="form-group">
-          	<label>Address: </label>
-          	<input type="text" name="addr" class="form-control" placeholder="ZIP Code">          	
-          	<input type="text" name="addr" class="form-control" placeholder="Enter Address">
-            <input type="text" name="addr" class="form-control" placeholder="Enter Address">
-          </div>
-          <div class="form-group">
-          	<label>Phone Number: </label>
-            <input type="tel" name="phone" class="form-control">
+            <input id="name" type="text" name="name" class="form-control" placeholder="Enter Name" th:value="${custvalue.name}">
           </div>
           <div class="form-group">
           	<label>Email: </label>
-            <input type="email" name="email" class="form-control">
+            <input id="email" type="email" name="email" class="form-control" placeholder="Enter Email" th:value="${custvalue.email}">
+            <input id="emailck" type="hidden" name="emailck" class="form-control" placeholder="Enter Email" th:value="${custvalue.email}">
+            <span id="espan" class="fmsg"></span>
+          </div>
+          <div class="form-group">
+          	<label>Phone Number: </label>
+            <input id="phone" type="text" name="phone" class="form-control" placeholder="Enter Phone number" th:value="${custvalue.phone}">
+            <input id="phoneck" type="hidden" name="phoneck" class="form-control" placeholder="Enter Phone number" th:value="${custvalue.phone}">
+            <span id="pspan" class="fmsg"></span>
+          </div>
+          <div class="form-group">
+          	<label>Address: </label>
+          	<input id="zip" type="number" name="zip" class="form-control" placeholder="ZIP Code" th:value="${custvalue.zip}">          	
+          	<input id="addrf" type="text" name="addrf" class="form-control" placeholder="Enter Address" th:value="${custvalue.addrf}"> 
+            <input id="addrs" type="text" name="addrs" class="form-control" placeholder="Enter Address" th:value="${custvalue.addrs}">
+          </div>
+          <div class="form-group">
+          	<label>My Point: </label>
+            <input id="point" type="text" name="point" class="form-control" placeholder="Enter Name" th:value="${custvalue.point}" readonly="readonly">
           </div>
 
           <div class="form-group">
-            <input type="submit" value="정보 수정" id="btn_userupdate" class="btn btn-primary py-3 px-5">
+            <input value="정보 수정" id="update_btn" class="btn btn-primary py-3 px-5">
           </div>
           <div class="form-group">
-            <input type="submit" value="회원 탍퇴" id="btn_userdelete" class="btn btn-primary py-3 px-5">
+            <input value="회원 탈퇴" id="delete_btn" class="btn btn-primary py-3 px-5">
           </div>
         </form>
       

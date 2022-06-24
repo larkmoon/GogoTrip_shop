@@ -46,6 +46,7 @@ public class UserController {
 		}
 		m.addAttribute("center", "user/login");
 		return "index";
+		
 	}
 	
 	@RequestMapping("/loginimpl")
@@ -125,6 +126,28 @@ public class UserController {
 		return result;
 	}
 	
+	// yunchanbin
+	
+	@RequestMapping("/registerimpl")
+	public String delete(Model m, CustVO obj) {
+		int f = 0;
+		try {
+			cbiz.register(obj);
+			f = 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			f = 1;
+		}
+		return "redirect:registerok?f="+f;
+	}
+	
+	@RequestMapping("registerok")
+	public String registerok(Model m, int f) {
+		m.addAttribute("f",f);
+		m.addAttribute("center","user/registerok");
+		return "index";
+	}
+	
 	@RequestMapping("/mypage")
 	public String mypage(Model m) {
 		m.addAttribute("center", "user/mypage");
@@ -132,9 +155,42 @@ public class UserController {
 	}
 	
 	@RequestMapping("/userinfo")
-	public String userinfo(Model m) {
+	public String userinfo(Model m,String id) {
+		CustVO obj = null;
+		try {
+			obj = cbiz.get(id);
+			m.addAttribute("custvalue",obj);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		m.addAttribute("center", "user/userinfo");
 		return "index";
 	}
 
+	@RequestMapping("/userdelete")
+	public String userdelete(String id, HttpSession session) {
+		
+		try {
+			if(session != null) {
+				session.invalidate();
+			}
+			cbiz.remove(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/userupdateimpl")
+	public String userdelete(Model m, CustVO obj) {
+		try {
+			cbiz.modify(obj);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "redirect:mypage?id="+obj.getId();
+	}
 }

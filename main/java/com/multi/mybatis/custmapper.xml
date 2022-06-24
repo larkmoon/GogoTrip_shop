@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM cust WHERE email=#{email};
 	</select>
 	<insert id="insert" parameterType="custVO">
-		INSERT INTO cust VALUES (#{id}, #{pwd}, #{name}, #{email}, #{phone}, CURDATE(), DEFAULT, #{zip}, #{addrf}, #{addrs})
+		INSERT INTO cust VALUES (#{id}, #{pwd}, #{name}, #{email}, #{phone}, CURDATE(), #{zip}, #{addrf}, #{addrs}, 0)
 	</insert>
 	<update id="update" parameterType="custVO">
 		UPDATE cust SET pwd=#{pwd}, name=#{name}, email=#{email}, phone=#{phone}, zip=#{zip}, addrf=#{addrf}, addrs=#{addrs} WHERE id=#{id}
@@ -28,5 +28,14 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<delete id="delete" parameterType="int">
 		DELETE FROM cust WHERE ID=#{id}
 	</delete>
+	
+		<!-- yunchanbin -->
+	<select id="selectemail" parameterType="String" resultType="custVO">
+		SELECT * FROM cust WHERE email=#{email}
+	</select>
+	<select id="selectphone" parameterType="String" resultType="custVO">
+		SELECT * FROM cust WHERE phone=#{phone}
+	</select>
+	
 	
 </mapper>
