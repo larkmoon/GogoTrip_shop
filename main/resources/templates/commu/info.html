@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+    <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_1.jpg');">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+            <h1 class="mb-0 bread">Community</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section ftco-degree-bg">
+      <div class="container">
+        <div class="row">
+        
+ <!----- Post List ----->
+          <div class="col-lg-8 ftco-animate" th:each="p: ${postlist}">
+			<div class="row">					
+				<div class="col-md-12 d-flex ftco-animate">
+		         		   <div class="blog-entry align-self-stretch d-md-flex">
+		              <a href="blog-single.html" class="block-20" style="background-image: url('/images/image_1.jpg');">
+		              </a>
+		              <div class="text d-block pl-md-4">
+		              	<div class="meta mb-3">
+		                  <div th:text="${#dates.format(p.regdate, 'yyyy-MM-dd')}"></div>
+		                  <div th:text="${p.uname}"></div>
+		                  <div th:text="${views}"></div>
+		                </div>
+		                <h3 class="heading"><a href="#" th:text="${p.title}"></a></h3>
+		                <p th:text="${p.content}"></p>
+		                <p><a th:href="'/community/detail?id='+${p.id}" class="btn btn-primary py-2 px-3">Read more</a></p>
+		              </div>
+		            </div>		            
+		          </div>
+			</div>
+		</div> <!-- .col-md-8 -->
+
+
+			<!--  
+<!----- Sidebar Start! ------>		     
+       <div class="col-lg-4 sidebar ftco-animate">
+          <div class="sidebar-box">
+          	<p><a href="/community/add" class="btn btn-primary py-2 px-3">NEW POST</a></p>
+          </div>         
+            <div class="sidebar-box">
+              <form action="#" class="search-form">
+                <div class="form-group">
+                  <span class="icon ion-ios-search"></span>
+                  <input type="text" class="form-control" placeholder="Search...">
+                </div>
+              </form>
+            </div>
+            <div class="sidebar-box ftco-animate">
+            	<h3 class="heading">Categories</h3>
+              <ul class="categories">
+              	<li><a href="#">ALL <span th:text="'('+${allcnt}+')'"></span></a></li>
+                <li><a href="#">여행 정보 <span th:text="'('+${infocnt}+')'"></span></a></li>
+                <li><a href="#">여행 후기 <span th:text="'('+${rvcnt}+')'"></span></a></li>
+                <li><a href="#">여행 관련 추천<span th:text="'('+${reccnt}+')'"></span></a></li>
+              </ul>
+            </div>
+            
+            <div class="sidebar-box ftco-animate">
+              <h3 class="heading">지역으로 찾기</h3>
+              <div class="tagcloud">
+                <a href="#" class="tag-cloud-link"  th:each="l : ${loclist}" th:text="${l.location}"></a>
+              </div>
+            </div>
+
+            
+        </div>
+
+        </div>
+      </div>
+    </section> <!-- .section -->
+
+</html>

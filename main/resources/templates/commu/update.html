@@ -1,0 +1,62 @@
+<script>
+	$(function(){
+		
+		$('#btn_updatepost').click(function(){
+			$('#form_updatepost').attr({
+				'enctype':'multipart/form-data',
+				'method':'post',
+				'action':'updateimpl'
+			});
+			$('#form_updatepost').submit();
+		});
+		
+	});
+</script>
+
+<section class="ftco-section contact-section bg-light">
+  <div class="container">
+  
+    <div class="row block-9">
+      <div class="col-md-6 order-md-last d-flex">
+        <form id="form_updatepost" class="bg-white p-5 contact-form">
+        <h2 class="mb-4">글쓰기</h2>
+          <div class="form-group">
+          	<label for="title">Title: </label>
+            <input type="text" name="title" class="form-control" th:value="${dpost.title}">
+             <input type="hidden" name="uid" class="form-control" th:value="${dpost.uid}">
+          </div>
+          <div class="form-group">
+          	<label>Category: </label>
+            <select name="type">
+            	<option th:each="t: ${typelist}" th:text="${t.type}" th:value="${t.type}"
+            	th:selected="${dpost.type} == ${t.type}"></option>
+            </select>
+            <label>Location :</label>
+            <input type="text" name="location" th:value="${dpost.location}">
+          </div>
+		  <div class="form-group">
+		  	 <label>Content: </label>
+             <textarea name="" id="" cols="15" rows="15" class="form-control" th:text="${dpost.content}"></textarea>          
+          </div>
+          <div class="form-group">
+          	<label>Image: </label>
+          	<input type="file" name="mf" class="form-control">
+          </div>
+          <div class="form-group">
+          	<label>Image: </label>
+          	<input type="hidden" name="imgname" th:value="${dpost.imgname}">
+          </div>
+          <div class="form-group">
+            <input type="submit" value="POST" id="btn_updatepost" class="btn btn-primary py-3 px-5">
+          </div>
+        </form>
+      
+      </div>
+
+    </div>
+  </div>
+  
+ 
+  
+</section>
+             
