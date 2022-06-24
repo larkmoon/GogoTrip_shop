@@ -16,6 +16,7 @@ import com.multi.biz.CustBiz;
 import com.multi.biz.ProductBiz;
 import com.multi.vo.CartVO;
 import com.multi.vo.CustVO;
+import com.multi.vo.SumVO;
 
 @Controller
 @RequestMapping("/shop/cart")
@@ -55,7 +56,10 @@ public class CartController {
 				CustVO c = cbiz.get(id);				
 				if(ss.toString().equals(c.toString())) {
 					List<CartVO> list = crtbiz.getbyuid(id);
+					SumVO obj = crtbiz.gettotalp(id);
+					int osum = obj.getSum();
 					m.addAttribute("crtlist", list);
+					m.addAttribute("sum", osum);
 					m.addAttribute("center", "cart/center");
 				}				
 			} catch (Exception e) {
@@ -79,21 +83,32 @@ public class CartController {
 	
 	@ResponseBody
 	@RequestMapping("/updatecart")
-	public int updatecart(int qt, int ctid, String uid, Model m) {
+	public int updatecart(int qt, int ctid, String uid) {
 		int sprice = 0;
 		try {
 			CartVO obj = new CartVO(ctid, qt);
 			crtbiz.modifycnt(obj);
 			CartVO obj2 = crtbiz.get(ctid);
 			sprice = obj2.getSprice();
-			List<CartVO> list = crtbiz.getbyuid(uid);
-			m.addAttribute("crtlist", list);
-			m.addAttribute("center", "cart/center");
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return sprice;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/carttotal")
+	public int carttotal(String uid) {
+		int sum = 0;
+		try {
+			SumVO obj = crtbiz.gettotalp(uid);
+			sum = obj.getSum();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sum;
 	}
 	
 	

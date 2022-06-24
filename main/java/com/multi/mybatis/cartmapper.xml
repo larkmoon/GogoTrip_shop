@@ -5,7 +5,8 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.CartMapper">
 	
 	<select id="select" parameterType="int" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice, ct.regdate, p.imgname, p.stock FROM cart ct
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice,
+		ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
 		WHERE ct.id=#{id}
@@ -20,17 +21,26 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	<!-- UID별 Cart list select-->
 	<select id="selectbyuid" parameterType="String" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice, ct.regdate, p.imgname, p.stock FROM cart ct
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice,
+		ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
 		WHERE ct.uid=#{uid};
 	</select>
 	<!-- uid, pid로 Cart list select-->
 	<select id="checkifexists" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice, ct.regdate, p.imgname, p.stock FROM cart ct
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice,
+		ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
 		WHERE ct.uid=#{uid} AND ct.pid=#{pid};
+	</select>
+	<!-- uid별 cart 총 금액 select-->
+	<select id="selecttotalp" parameterType="String" resultType="SumVO">
+		SELECT ct.uid, SUM(ct.cnt * p.price) AS sum FROM cart ct
+		INNER JOIN cust cu ON ct.uid=cu.id
+		INNER JOIN product p ON ct.pid=p.id
+		WHERE ct.uid=#{uid};
 	</select>
 	<insert id="insert" parameterType="cartVO">
 		INSERT INTO cart VALUES (null,#{uid},#{pid},#{cnt},SYSDATE())

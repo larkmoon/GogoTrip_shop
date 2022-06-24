@@ -7,7 +7,21 @@
 
 	function updatecart(ctid){
 		var uid = $('input[name="uid"]').val();
-		var qt = $('#'+ctid).val();
+		var qt = parseInt($('#'+ctid).val());
+		var stock = $('#'+'stk'+ctid).val();
+
+		if(qt == 0){
+			alert('상품의 최소 주문 수량은 1개입니다.');
+			qt = qt + 1;
+			$('#'+ctid).val(qt);
+			return false;
+		}
+		if(qt > stock){
+			alert('상품의 재고 수량은 ' + stock + '개입니다.');
+			qt = qt - 1;
+			$('#'+ctid).val(qt);
+			return false;
+		}
 		
 		$.ajax({
 			url:'cart/updatecart',
@@ -17,13 +31,52 @@
 				'uid':uid
 			},
 			success: function(result){
-				$('#'+'stp'+ctid).text(result);}
+				$('#'+'stp'+ctid).text(result);
+				
+				$.ajax({
+					url:'cart/carttotal',
+					data:{
+						'uid':uid
+					},
+					success: function(data){
+						$('#itemtotal').text(data+'원');
+						$('#itemp').val(data);
+						if(data >= 100000){
+							$('#deliverytotal').text('0원');
+							$('#deliveryp').val(0);
+						}else{
+							$('#deliverytotal').text('2500원');
+							$('#deliveryp').val(2500);
+						}
+						getcarttotal(data);
+					}
+				});
+			}
 		});
+		
 	};
+	
+	function getcarttotal(sum){
+		
+		var delivery = parseInt($('#deliveryp').val());
+		var discount = parseInt($('#discountp').val());
+		var totalp = + sum + delivery - discount;
+		$('#carttotal').text(totalp + '원');
+		$('#carttotalp').val(totalp);
+	}
 	
 
 	$(document).ready(function(){
-		
+		var sum = "[[${sum}]]";
+		if(sum >= 100000){
+			$('#deliverytotal').text('0원');
+			$('#deliveryp').val(0);
+		}else{
+			$('#deliverytotal').text('2500원');
+			$('#deliveryp').val(2500);
+		}
+			
+		getcarttotal(sum);
 	});
 
 </script>
@@ -55,7 +108,7 @@
 						      </tr>
 						    </thead>
 						    <tbody>
-						      <tr class="text-center" th:each="c : ${crtlist}">
+						      <tr class="text-center" th:if="${crtlist != null}" th:each="c : ${crtlist}">
 						    	   
 						    	    <!-- 삭제 버튼 -->		      		
 							        <td class="product-remove"><a href="#" th:onclick="deletecart([[${c.id}]])"><span class="ion-ios-close"></span></a></td>							        
@@ -71,9 +124,11 @@
 							        <!-- quantity -->							        
 							        <td class="quantity">
 							        	<input type="number" th:id="${c.id}"
-									     class="form-control input-number" th:value="${c.cnt}" min="0" max="100"
+									     class="form-control input-number" th:value="${c.cnt}" min="0" max="100" name="quantity"
 									     th:onkeypress="if(event.keyCode=='13'){event.preventDefault(); updatecart([[${c.id}]]);}"
-									     th:onchange="updatecart([[${c.id}]]);">					    
+									     th:onchange="updatecart([[${c.id}]]);">	
+									     <!-- 재고량(stock) 숨김 -->
+									     <input type="hidden" th:id="'stk'+${c.id}" th:value="${c.stock}">				    
 						       	   </td>
 						       		<!-- item별 금액(가격*개수) -->					        
 							       <td class="total" th:id="'stp'+${c.id}" th:text="${c.sprice}"></td>
@@ -86,26 +141,31 @@
 					  </div>
     			</div>
     		</div>
+    		<!-- 총 금액 -->
     		<div class="row justify-content-end">
     			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
     				<div class="cart-total mb-3">
     					<h3>Cart Totals</h3>
     					<p class="d-flex">
     						<span>총 상품 금액</span>
-    						<span>30000원</span>
+    						<span id="itemtotal" th:if="${sum != null}" th:text="${sum}+'원'"></span>
+    						<input type="hidden" th:value="${sum}" id="itemp">
     					</p>
     					<p class="d-flex">
     						<span>배송비</span>
-    						<span>2500원</span>
+    						<span id="deliverytotal"></span>
+    						<input type="hidden" id="deliveryp">
     					</p>
     					<p class="d-flex">
     						<span>할인</span>
     						<span>0원</span>
+    						<input type="hidden" value="0" id="discountp">
     					</p>
     					<hr>
     					<p class="d-flex total-price">
     						<span>결제 예정 금액</span>
-    						<span>원</span>
+    						<span id="carttotal"></span>
+    						<input type="hidden" id="carttotalp">
     					</p>
     				</div>
     				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>

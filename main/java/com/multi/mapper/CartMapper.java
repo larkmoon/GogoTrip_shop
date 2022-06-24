@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.multi.vo.CartVO;
+import com.multi.vo.SumVO;
 
 @Repository
 @Mapper
@@ -21,4 +22,5 @@ public interface CartMapper {
 	public int selectcartcnt(String uid) throws Exception;
 	public List<CartVO> selectbyuid(String uid) throws Exception;
 	public CartVO checkifexists(String uid, int pid) throws Exception;
+	public SumVO selecttotalp(String uid) throws Exception;
 }

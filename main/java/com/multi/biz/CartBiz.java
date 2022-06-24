@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.multi.frame.Biz;
 import com.multi.mapper.CartMapper;
 import com.multi.vo.CartVO;
+import com.multi.vo.SumVO;
 
 @Service
 public class CartBiz implements Biz<Integer, CartVO> {
@@ -60,6 +61,10 @@ public class CartBiz implements Biz<Integer, CartVO> {
 	
 	public CartVO checkifexists(String uid, int pid) throws Exception{
 		return dao.checkifexists(uid, pid);
+	}
+	
+	public SumVO gettotalp(String uid) throws Exception{
+		return dao.selecttotalp(uid);
 	}
 	
 }
