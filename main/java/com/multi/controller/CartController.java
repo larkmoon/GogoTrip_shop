@@ -79,14 +79,21 @@ public class CartController {
 	
 	@ResponseBody
 	@RequestMapping("/updatecart")
-	public void updatecart(int qt, int ctid) {
+	public int updatecart(int qt, int ctid, String uid, Model m) {
+		int sprice = 0;
 		try {
 			CartVO obj = new CartVO(ctid, qt);
 			crtbiz.modifycnt(obj);
+			CartVO obj2 = crtbiz.get(ctid);
+			sprice = obj2.getSprice();
+			List<CartVO> list = crtbiz.getbyuid(uid);
+			m.addAttribute("crtlist", list);
+			m.addAttribute("center", "cart/center");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		return sprice;
 	}
 	
 	

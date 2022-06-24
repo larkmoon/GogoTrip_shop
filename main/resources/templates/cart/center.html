@@ -4,37 +4,24 @@
 		var uid = $('input[name="uid"]').val();
 		location.href='/shop/cart/delete?ctid='+ctid+'&uid='+uid;
 	};
-	/*
-	//quantity 변할 때마다 single total(=price*quantity) 재계산
-	function singletotalp(pid){
-		var qt = $('input[name="quantity"]').val();
-		$.ajax({
-			url:'singletotalp',
-			data:{
-				'qt':qt,
-				'pid':pid
-			},
-			success: function(result){
-				alert(result);
-			}
-		});
-	}
-*/
 
 	function updatecart(ctid){
-		var qt = $('input[name="quantity"]').val();
+		var uid = $('input[name="uid"]').val();
+		var qt = $('#'+ctid).val();
+		
 		$.ajax({
 			url:'cart/updatecart',
 			data:{
 				'qt':qt,
-				'ctid':ctid
+				'ctid':ctid,
+				'uid':uid
 			},
 			success: function(result){
-				alert('updated');
-			}
+				$('#'+'stp'+ctid).text(result);}
 		});
 	};
 	
+
 	$(document).ready(function(){
 		
 	});
@@ -73,6 +60,7 @@
 						    	    <!-- 삭제 버튼 -->		      		
 							        <td class="product-remove"><a href="#" th:onclick="deletecart([[${c.id}]])"><span class="ion-ios-close"></span></a></td>							        
 							        <td class="image-prod"><div class="img" style="background-image:url(/images/product-3.jpg);"></div></td>						        
+							        <!-- 상품명 -->
 							        <td class="product-name">
 							        	<h3 th:text=${c.pname}></h3>
 							        </td>
@@ -82,12 +70,13 @@
 							        </td> 
 							        <!-- quantity -->							        
 							        <td class="quantity">
-							        	<input type="number" th:id="'q'+${c.id}" name=quantity
+							        	<input type="number" th:id="${c.id}"
 									     class="form-control input-number" th:value="${c.cnt}" min="0" max="100"
-									     th:onkeypress="if(event.keyCode=='13'){event.preventDefault(); updatecart([[${c.id}]]);}">					    
+									     th:onkeypress="if(event.keyCode=='13'){event.preventDefault(); updatecart([[${c.id}]]);}"
+									     th:onchange="updatecart([[${c.id}]]);">					    
 						       	   </td>
 						       		<!-- item별 금액(가격*개수) -->					        
-							       <td class="total" id="priceperitem">$4.90</td>
+							       <td class="total" th:id="'stp'+${c.id}" th:text="${c.sprice}"></td>
 							       <!-- cart id 숨김 -->
 							       <td class="total" display="none"><input type="hidden" th:value=${c.id} name="ctid"></td>	
 							       </tr><!-- END TR--> 
@@ -102,21 +91,21 @@
     				<div class="cart-total mb-3">
     					<h3>Cart Totals</h3>
     					<p class="d-flex">
-    						<span>Subtotal</span>
-    						<span>$20.60</span>
+    						<span>총 상품 금액</span>
+    						<span>30000원</span>
     					</p>
     					<p class="d-flex">
-    						<span>Delivery</span>
-    						<span>$0.00</span>
+    						<span>배송비</span>
+    						<span>2500원</span>
     					</p>
     					<p class="d-flex">
-    						<span>Discount</span>
-    						<span>$3.00</span>
+    						<span>할인</span>
+    						<span>0원</span>
     					</p>
     					<hr>
     					<p class="d-flex total-price">
-    						<span>Total</span>
-    						<span>$17.60</span>
+    						<span>결제 예정 금액</span>
+    						<span>원</span>
     					</p>
     				</div>
     				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>

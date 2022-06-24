@@ -23,6 +23,7 @@ public class CartVO {
 	public String cname;
 	public String pname;
 	public int price;
+	public int sprice; // ct.cnt * p.price AS sprice
 	public String imgname;
 	public int stock;
 	
