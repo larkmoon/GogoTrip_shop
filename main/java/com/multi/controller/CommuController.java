@@ -123,22 +123,22 @@ public class CommuController {
 				e.printStackTrace();
 			}
 			m.addAttribute("center", "commu/detail");
+			return "index";
 		}else {
-			m.addAttribute("center", "user/login");
+			return "redirect:/login?returnUrl="+"community/detail?id="+id;			
 		}
 
-		return "index";
 	}
 	
 
 	@RequestMapping("/add")
 	public String add(Model m, HttpSession session) {
 		if(session.getAttribute("logincust") == null) {
-			m.addAttribute("center", "user/login");
+			return "redirect:/login?returnUrl="+"community/add";
 		}else {
 			m.addAttribute("center", "commu/add");
-		}
-		return "index";
+			return "index";
+		}		
 	}
 	
 	@RequestMapping("/addimpl")
