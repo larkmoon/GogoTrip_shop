@@ -86,7 +86,12 @@ $(document).ready(function(){
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 mb-5 ftco-animate">
-				<a href="/images/product-1.jpg" class="image-popup"><img src="/images/product-1.jpg" class="img-fluid" alt="Colorlib Template"></a>
+				<a th:if="${dproduct.imgname != null}" th:href="'/images/'+${dproduct.imgname}" class="image-popup">
+					<img th:if="${dproduct.imgname != null}" th:src="'/images/'+${dproduct.imgname}"  class="img-fluid" alt="Colorlib Template">
+				</a>
+				<a th:unless="${dproduct.imgname != null}" th:href="'/images/gogologo'" class="image-popup">
+					<img th:unless="${dproduct.imgname != null}" th:src="'/images/gogologo'"  class="img-fluid" alt="Colorlib Template">
+				</a>
 			</div>
 			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
 				<h3 th:text="${dproduct.name}"></h3>

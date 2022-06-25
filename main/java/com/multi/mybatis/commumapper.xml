@@ -96,14 +96,26 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 
 <!-- !(Location.equals(""))일 때 update-->
 	<update id="update" parameterType="commuVO">
-		UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=#{location}, imgname=#{imgname}
-		WHERE id=#{id}
+		<if test='imgname == "0"'>
+			UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=#{location}, imgname=#NULL
+			WHERE id=#{id}
+		</if>
+		<if test='imgname != "0"'>
+			UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=#{location}, imgname=#{imgname}
+			WHERE id=#{id}
+		</if>
 	</update>
 	
 <!-- Location.equals("")일 때 update-->
 	<update id="updatenoloc" parameterType="commuVO">
-		UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=NULL, imgname=#{imgname}
-		WHERE id=#{id}
+		<if test='imgname == "0"'>
+			UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=NULL, imgname=NULL
+			WHERE id=#{id}
+		</if>
+		<if test='imgname != "0"'>
+			UPDATE commu SET type=#{type}, title=#{title}, content=#{content}, location=NULL, imgname=#{imgname}
+			WHERE id=#{id}
+		</if>
 	</update>
 
 <!-- views 증가 update-->
