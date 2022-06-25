@@ -57,7 +57,7 @@
 		              	<div class="meta mb-3">
 		                  <div th:text="${#dates.format(p.regdate, 'yyyy-MM-dd')}"></div>
 		                  <div th:text="${p.uname}"></div>
-		                  <div th:text="${views}"></div>
+		                  <div th:text="${p.views}+' views'"></div>
 		                </div>
 		                <h3 class="heading"><a href="#" th:text="${p.title}"></a></h3>
 		                <p th:text="${p.content}"></p>
