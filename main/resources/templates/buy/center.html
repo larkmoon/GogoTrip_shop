@@ -1,0 +1,207 @@
+<script>
+	$(document).ready(function(){
+
+	var quantitiy=0;
+	   $('.quantity-right-plus').click(function(e){
+	        
+	        // Stop acting like a button
+	        e.preventDefault();
+	        // Get the field name
+	        var quantity = parseInt($('#quantity').val());
+	        
+	        // If is not undefined
+	            
+	            $('#quantity').val(quantity + 1);
+
+	          
+	            // Increment
+	        
+	    });
+
+	     $('.quantity-left-minus').click(function(e){
+	        // Stop acting like a button
+	        e.preventDefault();
+	        // Get the field name
+	        var quantity = parseInt($('#quantity').val());
+	        
+	        // If is not undefined
+	      
+	            // Increment
+	            if(quantity>0){
+	            $('#quantity').val(quantity - 1);
+	            }
+	    });
+	    
+	});
+</script>
+
+
+<section class="ftco-section">
+   <div class="container">
+     <div class="row justify-content-center">
+     <!-- 주문자 Form Start -->
+       <div class="col-xl-7 ftco-animate">
+			<form action="#" class="billing-form">
+				<h3 class="mb-4 billing-heading">주문 정보</h3>
+        	<div class="row align-items-end">
+        		<div class="col-md-6">
+	              <div class="form-group">
+	              	<label for="firstname">주문자</label>
+	                <input type="text" th:value="${cust.name}" class="form-control">
+	              </div>
+           		</div>
+                <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+           	<div class="form-group">
+              	<label for="streetaddress">주소</label>
+                <input type="text" th:value="${cust.zip}" class="form-control" >
+                <input type="text" th:value="${cust.addrf}" class="form-control">
+                <input type="text" th:value="${cust.addrs}" class="form-control">
+              </div>
+           </div>
+           <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+              <div class="form-group">
+              	<label for="phone">전화번호</label>
+                <input type="text" th:value="${cust.phone}" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+              	<label for="emailaddress">이메일</label>
+                <input type="text" th:value="${cust.email}" class="form-control">
+              </div>
+             </div>
+             <div class="w-100"></div>
+             <div class="col-md-12">
+             	<div class="form-group mt-4">
+							<div class="radio">
+							  <label><input type="radio" name="optradio"> 주문자 정보와 동일</label>
+							  <label><input type="radio" name="optradio"> 새로운 배송지</label>
+							</div>
+						</div>
+             </div>
+          </div>
+        </form><!-- END -->
+   <!-- 주문자 Form End -->
+   
+   <!-- 배송지 Form Start -->
+        <form action="#" class="billing-form">
+				<h3 class="mb-4 billing-heading">주문 정보</h3>
+        	<div class="row align-items-end">
+        		<div class="col-md-6">
+	              <div class="form-group">
+	              	<label for="firstname">주문자</label>
+	                <input type="text" class="form-control" placeholder="">
+	              </div>
+           		</div>
+                <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+           	<div class="form-group">
+              	<label for="streetaddress">주소</label>
+                <input type="text" class="form-control" placeholder="House number and street name">
+                <input type="text" class="form-control" placeholder="House number and street name">
+                <input type="text" class="form-control" placeholder="House number and street name">
+              </div>
+           </div>
+           <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+              <div class="form-group">
+              	<label for="phone">전화번호</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+              	<label for="emailaddress">이메일</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+             </div>
+             <div class="w-100"></div>
+             <div class="col-md-12">
+             	<div class="form-group mt-4">
+							<div class="radio">
+							  <label><input type="radio" name="optradio"> 주문자 정보와 동일</label>
+							  <label><input type="radio" name="optradio"> 새로운 배송지</label>
+							</div>
+						</div>
+             </div>
+          </div>
+        </form><!-- END -->
+	</div>
+<!-- 배송지 Form End -->
+		
+	<!-- Sidebar Start -->	
+		<div class="col-xl-5">
+        <div class="row mt-5 pt-3">
+        	<div class="col-md-12 d-flex mb-5">
+        		<div class="cart-detail cart-total p-3 p-md-4">
+        			<h3 class="billing-heading mb-4">Cart Total</h3>
+        			<p class="d-flex">
+   						<span>Subtotal</span>
+   						<span>$20.60</span>
+   					</p>
+   					<p class="d-flex">
+   						<span>Delivery</span>
+   						<span>$0.00</span>
+   					</p>
+   					<p class="d-flex">
+   						<span>Discount</span>
+   						<span>$3.00</span>
+   					</p>
+   					<hr>
+   					<p class="d-flex total-price">
+   						<span>Total</span>
+   						<span>$17.60</span>
+   					</p>
+					</div>
+        	</div>
+        	<div class="col-md-12">
+        		<div class="cart-detail p-3 p-md-4">
+        			<h3 class="billing-heading mb-4">Payment Method</h3>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+								   <label><input type="radio" name="optradio" class="mr-2"> Direct Bank Tranfer</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+								   <label><input type="radio" name="optradio" class="mr-2"> Check Payment</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+								   <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="checkbox">
+								   <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
+								</div>
+							</div>
+						</div>
+						<p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
+					</div>
+        	</div>
+        </div>
+       </div> <!-- .col-md-8 -->
+   <!-- Sidebar End -->	
+     </div>
+   </div>
+ </section> <!-- .section -->
+
+	
+    
+ 
+ 
