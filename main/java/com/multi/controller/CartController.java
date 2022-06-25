@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,6 @@ import com.multi.biz.CustBiz;
 import com.multi.biz.ProductBiz;
 import com.multi.vo.CartVO;
 import com.multi.vo.CustVO;
-import com.multi.vo.SumVO;
 
 @Controller
 @RequestMapping("/shop/cart")
@@ -56,10 +56,7 @@ public class CartController {
 				CustVO c = cbiz.get(id);				
 				if(ss.toString().equals(c.toString())) {
 					List<CartVO> list = crtbiz.getbyuid(id);
-					SumVO obj = crtbiz.gettotalp(id);
-					int osum = obj.getSum();
 					m.addAttribute("crtlist", list);
-					m.addAttribute("sum", osum);
 					m.addAttribute("center", "cart/center");
 				}				
 			} catch (Exception e) {
@@ -83,35 +80,28 @@ public class CartController {
 	
 	@ResponseBody
 	@RequestMapping("/updatecart")
-	public int updatecart(int qt, int ctid, String uid) {
-		int sprice = 0;
+	public Object updatecart(int qt, int ctid, String uid) {
+		JSONObject jo = new JSONObject();
 		try {
 			CartVO obj = new CartVO(ctid, qt);
 			crtbiz.modifycnt(obj);
 			CartVO obj2 = crtbiz.get(ctid);
-			sprice = obj2.getSprice();
-
 			
+			int nsprice = obj2.getSprice();
+			int ncnt = obj2.getCnt();
+			int ntp = obj2.getTotalpoint();
+			int ndp = obj2.getDiscountedprice();
+			
+			jo.put("sprice", nsprice);
+			jo.put("ncnt", ncnt);
+			jo.put("ntp", ntp);
+			jo.put("ndp", ndp);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return sprice;
+		return jo;
 	}
-	
-	@ResponseBody
-	@RequestMapping("/carttotal")
-	public int carttotal(String uid) {
-		int sum = 0;
-		try {
-			SumVO obj = crtbiz.gettotalp(uid);
-			sum = obj.getSum();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return sum;
-	}
-	
-	
-	
+		
 	
 }
