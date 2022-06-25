@@ -92,7 +92,7 @@ $(document).ready(function(){
 	
 	$('#delete_btn').click(function(){
 		var id = $('input[name="id"]').val();
-		var c = confirm('Are you sure you want to delete it?');
+		var c = confirm('탈퇴하면 정보를 복구할 수 없습니다. 탈퇴하시겠습니까?');
 		if (c == true){
 			location.href='/userdelete?id='+id;
 		}

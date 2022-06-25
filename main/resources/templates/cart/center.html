@@ -144,7 +144,10 @@
 						    	   		<input type="hidden" class="individual_saleprice_input" th:value="${c.saleprice}">
 						    	   		<input type="hidden" class="individual_discountedprice_input" th:value="${c.discountedprice}" th:id="'hdp'+${c.id}">
 						    	   	</td>						        
-							        <td class="image-prod"><div class="img" style="background-image:url(/images/product-3.jpg);"></div></td>						        
+							        <td class="image-prod">
+							        	<div class="img" th:if="${c.imgname != null}" th:style="'background-image:url('+'/images/'+${c.imgname}+');'"></div>
+							        	<div class="img" th:unless="${c.imgname != null}" th:style="background-image:url('/images/gogologo.png')"></div>
+							        </td>						        
 							        <!-- 상품명 -->
 							        <td class="product-name">
 							        	<h3 th:text=${c.pname}></h3>

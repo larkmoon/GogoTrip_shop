@@ -38,7 +38,7 @@
              
             <div class="tag-widget post-tag-container mb-5 mt-5">
 	             <div class="tagcloud">
-	               <a class="tag-cloud-link" th:text="${dpost.location}"></a>
+	               <a class="tag-cloud-link" th:if="${dpost.location != null}" th:text="${dpost.location}"></a>
 	             </div>
             </div>
            

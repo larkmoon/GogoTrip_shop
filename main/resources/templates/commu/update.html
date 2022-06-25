@@ -2,6 +2,7 @@
 	$(function(){
 		
 		$('#btn_updatepost').click(function(){
+			$('input[name="location"]').val($.trim($('input[name="location"]').val()));
 			$('#form_updatepost').attr({
 				'enctype':'multipart/form-data',
 				'method':'post',
@@ -23,6 +24,7 @@
           <div class="form-group">
           	<label for="title">Title: </label>
             <input type="text" name="title" class="form-control" th:value="${dpost.title}">
+             <input type="hidden" name="id" class="form-control" th:value="${dpost.id}">
              <input type="hidden" name="uid" class="form-control" th:value="${dpost.uid}">
           </div>
           <div class="form-group">
@@ -36,15 +38,15 @@
           </div>
 		  <div class="form-group">
 		  	 <label>Content: </label>
-             <textarea name="" id="" cols="15" rows="15" class="form-control" th:text="${dpost.content}"></textarea>          
+             <textarea name="content" id="" cols="15" rows="15" class="form-control" th:text="${dpost.content}"></textarea>          
           </div>
           <div class="form-group">
           	<label>Image: </label>
           	<input type="file" name="mf" class="form-control">
           </div>
           <div class="form-group">
-          	<label>Image: </label>
-          	<input type="hidden" name="imgname" th:value="${dpost.imgname}">
+          	 <input type="hidden"  th:if="${dpost.imgname != null and dpost.imgname != ''}" th:value="${dpost.imgname}" name="imgname">
+             <input type="hidden"  th:if="${dpost.imgname == null or dpost.imgname == ''}" th:value="0" name="imgname">
           </div>
           <div class="form-group">
             <input type="submit" value="POST" id="btn_updatepost" class="btn btn-primary py-3 px-5">

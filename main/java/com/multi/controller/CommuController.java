@@ -55,7 +55,7 @@ public class CommuController {
 		}
 		return cartcnt;
 	}
-	
+
 	@RequestMapping("")
 	public String all(Model m, String type, String loc) {
 		
@@ -146,12 +146,17 @@ public class CommuController {
 		String imgname = obj.getMf().getOriginalFilename();
 		obj.setImgname(imgname);
 		try {
-			biz.register(obj);
+			String loc = obj.getLocation();
+			if(loc.equals("")) {
+				biz.registernoloc(obj);
+			}else {
+				biz.register(obj);
+			}
 			Util.saveFile(obj.getMf(), admindir, userdir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/";
+		return "redirect:/community";
 	}
 	
 	
@@ -184,7 +189,13 @@ public class CommuController {
 			Util.saveFile(obj.getMf(), admindir, userdir);
 		}
 		try {
-			biz.modify(obj);
+			String loc = obj.getLocation();
+			if(loc.equals("")) {
+				biz.modifynoloc(obj);
+			}else {
+				biz.modify(obj);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -206,7 +217,7 @@ public class CommuController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-				return "redirect:/";
+				return "redirect:/community";
 		}else {
 			m.addAttribute("center", "user/login");
 			return "index";
