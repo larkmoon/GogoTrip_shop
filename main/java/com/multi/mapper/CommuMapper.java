@@ -28,4 +28,5 @@ public interface CommuMapper {
 	public List<CommuVO> selectbyloc(String location) throws Exception;
 	public List<CommuVO> selectbykeyword(CommuVO obj) throws Exception;
 	public void increaseviews(CommuVO obj) throws Exception;
+	public List<CommuVO> selectuid(String uid) throws Exception;
 }

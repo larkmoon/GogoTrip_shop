@@ -29,7 +29,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT DISTINCT(type) FROM commu;
 	</select>
 	
-
+<!-- ID별 select -->
+	<select id="selectuid" parameterType="String" resultType="commuVO">
+		SELECT cm.id, cm.uid, cu.name AS uname, cm.type, cm.title, cm.content, cm.regdate, cm.location, cm.imgname, cm.views
+		FROM commu cm
+		INNER JOIN cust cu ON cm.uid=cu.id
+		WHERE cm.uid=#{uid};
+	</select>
 	
 <!-- Type별 개수 select-->
 	<select id="selectallcnt" resultType="int">

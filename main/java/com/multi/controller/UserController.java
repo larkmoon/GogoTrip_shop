@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.biz.CartBiz;
+import com.multi.biz.CommuBiz;
 import com.multi.biz.CustBiz;
+import com.multi.vo.CommuVO;
 import com.multi.vo.CustVO;
 
 @Controller
@@ -23,6 +25,9 @@ public class UserController {
 	
 	@Autowired
 	CartBiz crtbiz;
+	
+	@Autowired
+	CommuBiz cmbiz;
 	
 	@ModelAttribute("cartcnt")
 	public int cartcnt(HttpSession session) {
@@ -59,6 +64,13 @@ public class UserController {
 	
 	@RequestMapping("/mypost")
 	public String mypost(Model m, String id) {
+		List<CommuVO> list = null;
+		try {
+			list = cmbiz.getuid(id);
+			m.addAttribute("postlist",list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		m.addAttribute("center", "user/mypost");
 		return "index";
 	}
