@@ -57,6 +57,13 @@ public class UserController {
 		
 	}
 	
+	@RequestMapping("/mypost")
+	public String mypost(Model m, String id) {
+		m.addAttribute("center", "user/mypost");
+		return "index";
+	}
+	
+	
 	@RequestMapping("/loginimpl")
 	public String loginimpl(String id, String pwd, String returnUrl, HttpSession session, Model m) {
 		try {

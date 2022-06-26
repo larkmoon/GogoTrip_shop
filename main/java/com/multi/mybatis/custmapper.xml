@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT id FROM buy WHERE uid = #{id}
 	</select>
 	<select id="nullBD" parameterType="int">
-		UPDATE buy SET uid=null WHERE id=#{id} 
+		UPDATE buy SET uid=null WHERE id=#{id}
 	</select>
 	
 	<!-- for delete: commu.uid -> null -->
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT id FROM commu WHERE uid = #{id}
 	</select>
 	<select id="nullBD_c" parameterType="int">
-		UPDATE commu SET uid=null WHERE id=#{id} 
+		UPDATE commu SET uid=null WHERE id=#{id}
 	</select>
 	
 </mapper>

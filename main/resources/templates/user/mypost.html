@@ -1,0 +1,29 @@
+
+<meta charset="UTF-8">
+
+
+
+
+
+<div class="col-lg-8 ftco-animate" th:each="p: ${postlist}">
+	<div class="row">					
+		<div class="col-md-12 d-flex ftco-animate">
+         	<div class="blog-entry align-self-stretch d-md-flex">
+              <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:if="${p.imgname != null}" th:style="'background-image:url('+'/img/'+${p.imgname}+');'">
+              </a>
+              <a class="block-20" th:href="'/community/detail?id='+${p.id}" th:unless="${p.imgname != null}" style="background-image:url(/img/commu_basic.png)">
+              </a>
+              <div class="text d-block pl-md-4">
+              	<div class="meta mb-3">
+                  <div th:text="${#dates.format(p.regdate, 'yyyy-MM-dd')}"></div>
+                  <div th:text="${p.uname}"></div>
+                  <div th:text="${p.views}+' views'"></div>
+                </div>
+                <h3 class="heading"><a href="#" th:text="${p.title}"></a></h3>
+                <p th:text="${p.content}"></p>
+                <p><a th:href="'/community/detail?id='+${p.id}" class="btn btn-primary py-2 px-3">Read more</a></p>
+              </div>
+            </div>		            
+          </div>
+	</div>
+</div>
