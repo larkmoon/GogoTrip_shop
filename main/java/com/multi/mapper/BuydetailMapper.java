@@ -16,4 +16,6 @@ public interface BuydetailMapper {
 	
 	public BuydetailVO select(int id) throws Exception;
 	public List<BuydetailVO> selectall() throws Exception;
+	
+	public List<BuydetailVO> selectoid(int oid) throws Exception;
 }

@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.multi.biz.BuyBiz;
+import com.multi.biz.BuydetailBiz;
 import com.multi.biz.CartBiz;
 import com.multi.biz.CommuBiz;
 import com.multi.biz.CustBiz;
+import com.multi.vo.BuyVO;
+import com.multi.vo.BuydetailVO;
 import com.multi.vo.CommuVO;
 import com.multi.vo.CustVO;
 
@@ -28,6 +32,12 @@ public class UserController {
 	
 	@Autowired
 	CommuBiz cmbiz;
+	
+	@Autowired
+	BuyBiz bbiz;
+	
+	@Autowired
+	BuydetailBiz bdbiz;
 	
 	@ModelAttribute("cartcnt")
 	public int cartcnt(HttpSession session) {
@@ -72,6 +82,32 @@ public class UserController {
 			e.printStackTrace();
 		}
 		m.addAttribute("center", "user/mypost");
+		return "index";
+	}
+	
+	@RequestMapping("/myorder")
+	public String myorder(Model m, String id) {
+		List<BuyVO> list = null;
+		try {
+			list = bbiz.get(id);
+			m.addAttribute("buylist",list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		m.addAttribute("center","user/myorder");
+		return "index";
+	}
+	@RequestMapping("buydetail")
+	public String buydetailmain(Model m, int oid) {
+		List<BuydetailVO> list = null;
+		try {
+			list = bdbiz.getoid(oid);
+			m.addAttribute("buydetaillist",list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("center","user/buydetail");
 		return "index";
 	}
 	
