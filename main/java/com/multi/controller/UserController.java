@@ -31,7 +31,7 @@ public class UserController {
 			CustVO obj = (CustVO) session.getAttribute("logincust");
 			String uid = obj.getId();
 			try {
-				cartcnt = crtbiz.getcartcnt(uid);			
+				cartcnt = crtbiz.getcartcnt(uid);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -187,14 +187,19 @@ public class UserController {
 	
 	@RequestMapping("userdelete")
 	public String delete(Model m, String id, HttpSession session) {
-		List<Integer> list = null;
+		List<Integer> blist = null;
+		List<Integer> clist = null;
 		try {
 			if(session != null) {
 				session.invalidate();
 			}
-			list = cbiz.getUpdlist(id);
-			for (Integer b : list) {
+			blist = cbiz.getUpdlist(id);
+			clist = cbiz.getUpdlist_c(id);
+			for (Integer b : blist) {
 				cbiz.nullBeforeDelete(b);
+			}
+			for (Integer c : clist) {
+				cbiz.nullBeforeDelete_c(c);
 			}
 			cbiz.remove(id);
 		} catch (Exception e) {
