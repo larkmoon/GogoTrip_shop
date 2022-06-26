@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.CartMapper">
 	
 	<select id="select" parameterType="int" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice,
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.discount, ct.cnt * p.price AS sprice,
 		ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
@@ -14,14 +14,14 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectall" resultType="cartVO">
 		SELECT * FROM cart
 	</select>
-	<!-- ID별 Cart item 개수 select -->
+	<!-- UID별 Cart item 개수 select -->
 	<select id="selectcartcnt" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM cart
 		WHERE uid=#{uid}
 	</select>
 	<!-- UID별 Cart list select-->
 	<select id="selectbyuid" parameterType="String" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice,
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.discount, ct.cnt * p.price AS sprice,
 		ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	<!-- uid, pid로 Cart list select-->
 	<select id="checkifexists" resultType="cartVO">
-		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.cnt * p.price AS sprice,
+		SELECT ct.id, ct.uid, cu.name AS cname, ct.pid, p.name AS pname, ct.cnt, p.price, ct.discount, ct.cnt * p.price AS sprice,
 		ct.regdate, p.imgname, p.stock FROM cart ct
 		INNER JOIN cust cu ON ct.uid=cu.id
 		INNER JOIN product p ON ct.pid=p.id
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE ct.uid=#{uid};
 	</select>
 	<insert id="insert" parameterType="cartVO">
-		INSERT INTO cart VALUES (null,#{uid},#{pid},#{cnt},SYSDATE())
+		INSERT INTO cart VALUES (null,#{uid},#{pid},#{cnt},SYSDATE(),DEFAULT)
 	</insert>
 	<update id="update" parameterType="cartVO">
 		UPDATE cart SET UID=#{uid}, PID=#{pid}, CNT=#{cnt} WHERE ID=#{id}

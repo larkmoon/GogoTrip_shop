@@ -40,11 +40,17 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(Model m, String msg) {
+	public String login(Model m, String msg, String returnUrl) {
 		if(msg != null && msg.equals("w")) {
 			m.addAttribute("loginmsg", "아이디와 비밀번호가 일치하지 않습니다.");
 		}else if(msg != null && msg.equals("n")) {
 			m.addAttribute("loginmsg", "ID가 존재하지 않습니다.");
+		}
+		
+		if(returnUrl != null) {
+			System.out.println("login" + returnUrl);
+			String returnUrl2 = returnUrl;
+			m.addAttribute("returnUrl", returnUrl2);
 		}
 		m.addAttribute("center", "user/login");
 		return "index";
@@ -52,14 +58,19 @@ public class UserController {
 	}
 	
 	@RequestMapping("/loginimpl")
-	public String loginimpl(String id, String pwd, HttpSession session, Model m) {
+	public String loginimpl(String id, String pwd, String returnUrl, HttpSession session, Model m) {
 		try {
 			CustVO obj = cbiz.get(id);
 			if(obj != null) {
 				if(obj.getPwd().equals(pwd)) {
 					session.setAttribute("logincust", obj);
 					m.addAttribute("logincust", obj);
-					return "index";
+					if(returnUrl != null) {
+						return "redirect:/"+returnUrl;
+					}else {
+						return "index";
+					}
+
 				}else {
 					// 아이디와 비밀번호 일치하지 않음
 					return "redirect:/login?msg=w";

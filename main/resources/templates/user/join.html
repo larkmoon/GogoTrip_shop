@@ -13,7 +13,7 @@ var errorphone = 1;
 
 function checkid(id){
 	if(id.length < 4){
-		$('#ispan').text('This ID is too short.');
+		$('#ispan').text('Enter at least 4 characters');
 		errorid = 1
 	}else{
 		$.ajax({
@@ -26,7 +26,7 @@ function checkid(id){
 					}
 					$('#ispan').text('');
 				}else if(data == "1"){
-					$('#ispan').text('This ID is already exist');
+					$('#ispan').text('ID Already Exists');
 				}
 				errorid = data;
 			}
@@ -44,15 +44,15 @@ function checkemail(email){
 				}
 				$('#espan').text('');
 			}else if(data == "1"){
-				$('#espan').text('This e-mail is already exist');
+				$('#espan').text('E-mail Already Exists');
 			}
 			erroremail = data;
 		}
 	});
 }
 function checkphone(phone){
-	if(phone.length != 11){
-		$('#pspan').text('Length must be 11');
+	if(phone.length > 11 || phone.length < 10){
+		$('#pspan').text('Should be between 10-12 digits');
 		errorphone = 1
 	}else{
 		$.ajax({
@@ -65,9 +65,9 @@ function checkphone(phone){
 					}
 					$('#pspan').text('');
 				}else if(data == "1"){
-					$('#pspan').text('This number is already exist');
+					$('#pspan').text('Phone Number Already Exists');
 				}else{
-					$('#pspan').text('Input Number type');
+					$('#pspan').text('');
 				}
 				errorphone = data;
 			}

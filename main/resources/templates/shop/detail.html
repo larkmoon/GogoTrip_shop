@@ -26,7 +26,7 @@ function addcart(pid){
 			if(result == "1"){
 				$('#myModal').modal();
 			}else{
-				location.href="/login";
+				location.href="/login?returnUrl="+'shop/product?id='+pid;
 			}
 			
 		}
@@ -35,9 +35,10 @@ function addcart(pid){
 
 $(document).ready(function(){
 	
-	
 	var qtt = parseInt($('#quantity').val());
 	var sprice = "[[${dproduct.price}]]";
+	var stock = "[[${dproduct.stock}]]";
+	
 	$('#pricepreview').text(qtt * sprice);
 	
 	   $('.quantity-right-plus').click(function(e){
@@ -47,8 +48,13 @@ $(document).ready(function(){
 	        // Get the field name
 	        var quantity = parseInt($('#quantity').val());	        
 	        // If is not undefined	            
-	            $('#quantity').val(quantity + 1);
-				   // Increment	        
+	           
+	        if(quantity == stock){
+	        	alert('상품의 재고 수량은 ' + stock + '개입니다.');
+	        }else{
+	        	// Increment	   
+	        	 $('#quantity').val(quantity + 1);
+	        }		    
 				   pricepreview();
 	    });
 
@@ -59,8 +65,11 @@ $(document).ready(function(){
 	        var quantity = parseInt($('#quantity').val());	        
 	        // If is not undefined	      
 	            // Increment
-	            if(quantity>0){
-	            $('#quantity').val(quantity - 1);
+	            if(quantity == 1){
+	            	alert('상품의 최소 주문 수량은 1개입니다.');
+	            	 $('#quantity').val(1);	           
+	            }else{
+	            	 $('#quantity').val(quantity - 1);
 	            }
 	            pricepreview();
 	    });
@@ -77,7 +86,12 @@ $(document).ready(function(){
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 mb-5 ftco-animate">
-				<a href="/images/product-1.jpg" class="image-popup"><img src="/images/product-1.jpg" class="img-fluid" alt="Colorlib Template"></a>
+				<a th:if="${dproduct.imgname != null}" th:href="'/images/'+${dproduct.imgname}" class="image-popup">
+					<img th:if="${dproduct.imgname != null}" th:src="'/images/'+${dproduct.imgname}"  class="img-fluid" alt="Colorlib Template">
+				</a>
+				<a th:unless="${dproduct.imgname != null}" th:href="'/images/gogologo'" class="image-popup">
+					<img th:unless="${dproduct.imgname != null}" th:src="'/images/gogologo'"  class="img-fluid" alt="Colorlib Template">
+				</a>
 			</div>
 			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
 				<h3 th:text="${dproduct.name}"></h3>
@@ -112,9 +126,10 @@ $(document).ready(function(){
 			       	</div>
 			       	<input type="hidden" th:if="${session.logincust != null}" th:value="${session.logincust.id}" id="uid">
 		      	</div>
-
-		      	<p><a href="#" id="btn_addcart" th:onclick="addcart([[${dproduct.id}]])" class="btn btn-black py-3 px-5">Add to Cart</a></p>
-		      	<p><a href="#" id="btn_buynow" class="btn btn-black py-3 px-5">Buy Now</a></p>
+			<!-- 장바구니에 담기 / 주문 / 품절 버튼 -->
+		      	<p><a href="#" id="btn_addcart" th:if="${dproduct.stock > 0}" th:onclick="addcart([[${dproduct.id}]])" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+		      	<p><a href="#" id="btn_buynow"  th:if="${dproduct.stock > 0}" class="btn btn-black py-3 px-5">Buy Now</a></p>
+		      	<p><a id="btn_buynow"  th:if="${dproduct.stock == 0}" class="btn btn-black py-3 px-5">Sold out</a></p>
 			</div>
 		</div>
 	</div>

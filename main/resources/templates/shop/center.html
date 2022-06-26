@@ -1,15 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-
-    <div class="hero-wrap hero-bread" style="background-image: url('/images/bg_1.jpg');">
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-center justify-content-center">
-          <div class="col-md-9 ftco-animate text-center">
-            <h1 class="mb-0 bread">SHOP</h1>
-          </div>
+<style>
+	.img-prod{
+		width:200px;
+		height:200px;
+		object-fit:contain;
+		display:flex;
+		justify-content:center;
+	}
+	
+	.prodimage{
+		width:180px;
+		height:180px;
+		object-fit:contain;
+	}
+</style>
+  <div class="hero-wrap hero-bread" style="background-image: url('/images/shop_header2.jpg');">
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-9 ftco-animate text-center">
+          <h1 class="mb-0 bread">SHOP</h1>
         </div>
       </div>
     </div>
+  </div>
 
 <section class="ftco-section">
     <div class="container">
@@ -33,7 +45,9 @@
     		<div class="row">    	
     			<div class="col-md-6 col-lg-3 ftco-animate" th:each="p: ${plist}">
     				<div class="product">
-    					<a th:href="'/shop/product?id='+${p.id}" class="img-prod"><img class="img-fluid" src="/images/product-3.jpg" alt="Colorlib Template">
+    					<a th:href="'/shop/product?id='+${p.id}" class="img-prod">
+    						<img class="img-fluid prodimage" th:if="${p.imgname != null}" th:src="'/images/'+${p.imgname}">
+    						<img class="img-fluid prodimage" th:unless="${p.imgname != null}" th:src="'/images/gogologo.png'">
 	    					<div class="overlay"></div>
 	    				</a>
     					<div class="text py-3 pb-4 px-3 text-center">
