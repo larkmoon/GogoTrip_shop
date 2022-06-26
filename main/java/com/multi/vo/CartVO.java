@@ -15,17 +15,23 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class CartVO {
-	public int id;
-	public String uid;
-	public int pid;
-	public int cnt;
-	public Date regdate;
-	public String cname;
-	public String pname;
-	public int price;
-	public int sprice; // ct.cnt * p.price AS sprice
-	public String imgname;
-	public int stock;
+	private int id;
+	private String uid;
+	private int pid;
+	private int cnt;
+	private Date regdate;
+	private String cname;
+	private String pname;
+	private int price;
+	private int sprice; // ct.cnt * p.price AS sprice
+	private String imgname;
+	private int stock;
+	private int point;
+	private int totalpoint;
+	private int totalprice;
+	private double discount;
+	private int saleprice;
+	private int discountedprice;
 	
 	// for insert
 	public CartVO(String uid, int pid, int cnt) {
@@ -50,8 +56,18 @@ public class CartVO {
 		this.cnt = cnt;
 	}
 	
+	public void initsale() {
+		this.saleprice = (int) (this.price * (1 - this.discount));
+		this.totalprice = this.saleprice * this.cnt;
+		this.point = (int) (Math.floor(this.saleprice*0.05));
+		this.totalpoint = this.point * this.cnt;
+		this.discountedprice = (this.price * this.cnt) - this.totalprice;
+	}
 	
 	
+	// saleprice = 가격 * (1 - 할인율)
+	// 원가: price * cnt
+	// 할인액 : (price * cnt) - saleprice
 	
 	
 	

@@ -19,6 +19,7 @@ $(function(){
      <div class="row block-9">
        <div class="col-md-6 order-md-last d-flex">
          <form id="form_login" class="bg-white p-5 contact-form">
+         	<input type="hidden" name="returnUrl" class="form-control" th:if="${returnUrl != null}" th:value="${returnUrl}">
          	<h2 class="mb-4">Login</h2>
          	<span th:text="${loginmsg}"></span>
            <div class="form-group">

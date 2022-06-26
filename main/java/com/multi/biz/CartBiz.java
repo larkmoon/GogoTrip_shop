@@ -43,7 +43,9 @@ public class CartBiz implements Biz<Integer, CartVO> {
 
 	@Override
 	public CartVO get(Integer k) throws Exception {
-		return dao.select(k);
+		CartVO obj = dao.select(k);
+		obj.initsale();
+		return obj;
 	}
 
 	@Override
@@ -56,7 +58,12 @@ public class CartBiz implements Biz<Integer, CartVO> {
 	}
 	
 	public List<CartVO> getbyuid(String uid) throws Exception{
-		return dao.selectbyuid(uid);
+		
+		List<CartVO> cart = dao.selectbyuid(uid);		
+		for (CartVO obj : cart) {
+			obj.initsale();
+		}
+		return cart;
 	}
 	
 	public CartVO checkifexists(String uid, int pid) throws Exception{
@@ -66,5 +73,6 @@ public class CartBiz implements Biz<Integer, CartVO> {
 	public SumVO gettotalp(String uid) throws Exception{
 		return dao.selecttotalp(uid);
 	}
+	
 	
 }
