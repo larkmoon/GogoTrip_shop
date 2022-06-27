@@ -22,6 +22,9 @@ public class BuyVO {
 	public String addrf;
 	public String addrs;
 	public String phone;
+	public String orderstate;
+	public int deliveryfee;
+	public int usedpoint;
 	public int totalprice;
 	public String payment;
 	public Date regdate;

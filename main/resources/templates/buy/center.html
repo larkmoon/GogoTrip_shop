@@ -1,207 +1,226 @@
-<script>
-	$(document).ready(function(){
-
-	var quantitiy=0;
-	   $('.quantity-right-plus').click(function(e){
-	        
-	        // Stop acting like a button
-	        e.preventDefault();
-	        // Get the field name
-	        var quantity = parseInt($('#quantity').val());
-	        
-	        // If is not undefined
-	            
-	            $('#quantity').val(quantity + 1);
-
-	          
-	            // Increment
-	        
-	    });
-
-	     $('.quantity-left-minus').click(function(e){
-	        // Stop acting like a button
-	        e.preventDefault();
-	        // Get the field name
-	        var quantity = parseInt($('#quantity').val());
-	        
-	        // If is not undefined
-	      
-	            // Increment
-	            if(quantity>0){
-	            $('#quantity').val(quantity - 1);
-	            }
-	    });
-	    
-	});
-</script>
+<script th:inline="javascript">
 
 
-<section class="ftco-section">
-   <div class="container">
-     <div class="row justify-content-center">
-     <!-- 주문자 Form Start -->
-       <div class="col-xl-7 ftco-animate">
-			<form action="#" class="billing-form">
-				<h3 class="mb-4 billing-heading">주문 정보</h3>
-        	<div class="row align-items-end">
-        		<div class="col-md-6">
-	              <div class="form-group">
-	              	<label for="firstname">주문자</label>
-	                <input type="text" th:value="${cust.name}" class="form-control">
-	              </div>
-           		</div>
-                <div class="w-100"></div>
-           <div class="w-100"></div>
-           <div class="col-md-6">
-           	<div class="form-group">
-              	<label for="streetaddress">주소</label>
-                <input type="text" th:value="${cust.zip}" class="form-control" >
-                <input type="text" th:value="${cust.addrf}" class="form-control">
-                <input type="text" th:value="${cust.addrs}" class="form-control">
-              </div>
-           </div>
-           <div class="w-100"></div>
-           <div class="w-100"></div>
-           <div class="col-md-6">
-              <div class="form-group">
-              	<label for="phone">전화번호</label>
-                <input type="text" th:value="${cust.phone}" class="form-control">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-              	<label for="emailaddress">이메일</label>
-                <input type="text" th:value="${cust.email}" class="form-control">
-              </div>
-             </div>
-             <div class="w-100"></div>
-             <div class="col-md-12">
-             	<div class="form-group mt-4">
-							<div class="radio">
-							  <label><input type="radio" name="optradio"> 주문자 정보와 동일</label>
-							  <label><input type="radio" name="optradio"> 새로운 배송지</label>
-							</div>
-						</div>
-             </div>
-          </div>
-        </form><!-- END -->
-   <!-- 주문자 Form End -->
-   
-   <!-- 배송지 Form Start -->
-        <form action="#" class="billing-form">
-				<h3 class="mb-4 billing-heading">주문 정보</h3>
-        	<div class="row align-items-end">
-        		<div class="col-md-6">
-	              <div class="form-group">
-	              	<label for="firstname">주문자</label>
-	                <input type="text" class="form-control" placeholder="">
-	              </div>
-           		</div>
-                <div class="w-100"></div>
-           <div class="w-100"></div>
-           <div class="col-md-6">
-           	<div class="form-group">
-              	<label for="streetaddress">주소</label>
-                <input type="text" class="form-control" placeholder="House number and street name">
-                <input type="text" class="form-control" placeholder="House number and street name">
-                <input type="text" class="form-control" placeholder="House number and street name">
-              </div>
-           </div>
-           <div class="w-100"></div>
-           <div class="w-100"></div>
-           <div class="col-md-6">
-              <div class="form-group">
-              	<label for="phone">전화번호</label>
-                <input type="text" class="form-control" placeholder="">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-              	<label for="emailaddress">이메일</label>
-                <input type="text" class="form-control" placeholder="">
-              </div>
-             </div>
-             <div class="w-100"></div>
-             <div class="col-md-12">
-             	<div class="form-group mt-4">
-							<div class="radio">
-							  <label><input type="radio" name="optradio"> 주문자 정보와 동일</label>
-							  <label><input type="radio" name="optradio"> 새로운 배송지</label>
-							</div>
-						</div>
-             </div>
-          </div>
-        </form><!-- END -->
-	</div>
-<!-- 배송지 Form End -->
+	function getallcart(){
+		let totalprice = 0;
+		let totalcount = 0;
+		let totalkind = 0;
+		let totalpoint = 0;
+		let deliveryprice = 0;
+		let finaltotalprice = 0;
+		let discountedprice = 0;
 		
-	<!-- Sidebar Start -->	
-		<div class="col-xl-5">
-        <div class="row mt-5 pt-3">
-        	<div class="col-md-12 d-flex mb-5">
-        		<div class="cart-detail cart-total p-3 p-md-4">
-        			<h3 class="billing-heading mb-4">Cart Total</h3>
-        			<p class="d-flex">
-   						<span>Subtotal</span>
-   						<span>$20.60</span>
-   					</p>
-   					<p class="d-flex">
-   						<span>Delivery</span>
-   						<span>$0.00</span>
-   					</p>
-   					<p class="d-flex">
-   						<span>Discount</span>
-   						<span>$3.00</span>
-   					</p>
-   					<hr>
-   					<p class="d-flex total-price">
-   						<span>Total</span>
-   						<span>$17.60</span>
-   					</p>
-					</div>
-        	</div>
-        	<div class="col-md-12">
-        		<div class="cart-detail p-3 p-md-4">
-        			<h3 class="billing-heading mb-4">Payment Method</h3>
-						<div class="form-group">
-							<div class="col-md-12">
-								<div class="radio">
-								   <label><input type="radio" name="optradio" class="mr-2"> Direct Bank Tranfer</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-md-12">
-								<div class="radio">
-								   <label><input type="radio" name="optradio" class="mr-2"> Check Payment</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-md-12">
-								<div class="radio">
-								   <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-md-12">
-								<div class="checkbox">
-								   <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
-								</div>
-							</div>
-						</div>
-						<p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
-					</div>
-        	</div>
-        </div>
-       </div> <!-- .col-md-8 -->
-   <!-- Sidebar End -->	
-     </div>
-   </div>
- </section> <!-- .section -->
+		$(".cart_info_td").each(function(index, element){			
+			if($(element).find(".individual_cart_checkbox").is(":checked") === true){
+				totalprice += parseInt($(element).find(".individual_totalprice_input").val());
+				totalcount += parseInt($(element).find(".individual_cnt_input").val());
+				totalkind += 1;
+				totalpoint += parseInt($(element).find(".individual_totalpoint_input").val());
+				discountedprice += parseInt($(element).find(".individual_discountedprice_input").val());
+			}
+
+		});
+		
+		if(totalprice >= 100000){
+			deliveryprice = 0;
+		}else {
+			deliveryprice = 2500;
+		}
+		
+		finaltotalprice = totalprice + deliveryprice;
+		
+		$('#span_totalprice').text(totalprice + '원');
+		$('#span_deliveryprice').text(deliveryprice + '원');		
+		$('#span_discountedprice').text(discountedprice + '원');
+		$('#span_finaltotalprice').text(finaltotalprice + '원');
+	};
+	
+	
+	function deletecart(ctid){	
+		var uid = $('input[name="uid"]').val();
+		
+			$.ajax({
+				url:'cart/delete',
+				data:{
+					'uid':uid,
+					'ctid':ctid
+					},
+				success: function(){
+					location.href='/shop/cart?id='+uid;
+				}
+			});
+	};
+	
+	
+	function updatecart(ctid){
+		var uid = $('input[name="uid"]').val();
+		var qt = parseInt($('#'+ctid).val());
+		var stock = $('#'+'stk'+ctid).val();
+	
+		if(qt == 0){
+			alert('상품의 최소 주문 수량은 1개입니다.');
+			qt = qt + 1;
+			$('#'+ctid).val(qt);
+			return false;
+		}
+		if(qt > stock){
+			alert('상품의 재고 수량은 ' + stock + '개입니다.');
+			qt = qt - 1;
+			$('#'+ctid).val(qt);
+			return false;
+		}
+		
+		$.ajax({
+			url:'cart/updatecart',
+			data:{
+				'qt':qt,
+				'ctid':ctid,
+				'uid':uid
+			},
+			success: function(result){
+				$('#'+'stp'+ctid).text(result.sprice);
+				$('#'+'hsprice'+ctid).val(result.sprice);
+				$('#'+'hcnt'+ctid).val(result.ncnt);
+				$('#'+'htp'+ctid).val(result.ntp);
+				$('#'+'hdp'+ctid).val(result.ndp);
+				
+				getallcart();
+			}
+		
+		});
+		
+	};
+	
 
 	
-    
- 
- 
+	$(function(){
+		getallcart();
+		
+		$(".all_check_input").on("click", function(){
+			
+			if($(".all_check_input").prop("checked")){
+				$(".individual_cart_checkbox").attr("checked", true);
+			} else{
+				$(".individual_cart_checkbox").attr("checked", false);
+			}
+			getallcart();	
+			
+		});
+		
+	});
+
+</script>
+
+      <div class="row justify-content-center mb-5 pb-3" id="header_cart">
+        <div class="col-md-7 heading-section ftco-animate text-center">
+        	<span class="subheading">주문하기</span>
+          <h2 class="mb-4">Order</h2>
+        </div>
+      </div>
+
+    <section class="ftco-section ftco-cart">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="cart-list">
+    				<!-- uid 숨김 -->
+    				<input type="hidden" th:if="${session.logincust != null}" th:value="${session.logincust.id}" id="uid" name="uid">
+	    				<!-- table 시작 -->
+	    				<table class="table" th:onchange="getallcart();" >
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						        <th>
+						        	<input type="checkbox" class="all_check_input input_size_20" checked="checked">
+						        </th>
+						        <th>&nbsp;</th>
+						        <th>Product name</th>
+						        <th>Price</th>
+						        <th>Quantity</th>
+						        <th>Total</th>
+						        <th>&nbsp;</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						      	<tr class="text-center" th:if="${crtlist != null}" th:each="c : ${crtlist}">
+						    	   <!-- checkbox -->
+							    	   <td class="product-remove cart_info_td">
+							    	   		<input type="checkbox" class="individual_cart_checkbox input_size_20" 
+							    	   		th:onchange="getallcart();" checked="checked">
+							    	   		<input type="hidden" class="individual_price_input" th:value="${c.price}">
+							    	   		<input type="hidden" class="individual_cnt_input" th:value="${c.cnt}" th:id="'hcnt'+${c.id}">
+							    	   		<input type="hidden" class="individual_point_input" th:value="${c.point}">
+							    	   		<input type="hidden" class="individual_totalpoint_input" th:value="${c.totalpoint}" th:id="'htp'+${c.id}">
+							    	   		<input type="hidden" class="individual_totalprice_input" th:value="${c.price * c.cnt}" th:id="'hsprice'+${c.id}">
+							    	   		<input type="hidden" class="individual_saleprice_input" th:value="${c.saleprice}">
+							    	   		<input type="hidden" class="individual_discountedprice_input" th:value="${c.discountedprice}" th:id="'hdp'+${c.id}">
+							    	   	</td>	
+							    	   	<!-- 이미지 -->			        
+								        <td class="image-prod">
+								        	<div class="img" th:if="${c.imgname != null}" th:style="'background-image:url('+'/images/'+${c.imgname}+');'"></div>
+								        	<div class="img" th:unless="${c.imgname != null}" th:style="background-image:url('/images/gogologo.png')"></div>
+								        </td>	
+								        					        
+								        <!-- 상품명 -->
+								        <td class="product-name">
+								        	<h3 th:text=${c.pname}></h3>
+								        </td>
+								        
+								        <!-- price -->								        
+								        <td class="price" th:text="${c.price}" id="singleprice">
+								        	
+								        </td> 
+								        
+								        <!-- quantity -->							        
+								        <td class="quantity">
+								        	<input type="number" th:id="${c.id}"
+										     class="form-control input-number" th:value="${c.cnt}" min="0" max="100" name="quantity"
+										     th:onkeypress="if(event.keyCode=='13'){event.preventDefault(); updatecart([[${c.id}]]);}"
+										     th:onchange="updatecart([[${c.id}]]);">	
+										     <!-- 재고량(stock) 숨김 -->
+										     <input type="hidden" th:id="'stk'+${c.id}" th:value="${c.stock}">				    
+							       	   </td>
+							       	   
+							       		<!-- item별 금액(가격*개수) -->					        
+								       <td class="total" th:id="'stp'+${c.id}" th:text="${c.sprice}"></td>
+								       
+								        <!-- 삭제 버튼 -->		      		
+								        <td class="product-remove">
+								        	<a href="#" th:onclick="deletecart([[${c.id}]])"><span class="ion-ios-close"></span></a>
+								        </td>
+							       		<!-- cart id 숨김 -->
+							       		<td class="total" display="none"><input type="hidden" th:value=${c.id} name="ctid"></td>	
+							       </tr><!-- END TR--> 
+						      </tbody>
+						  </table>
+						  <!-- table 끝 -->
+					  </div>
+    			</div>
+    		</div>
+    		<!-- 총 금액 -->
+    		<div class="row justify-content-end">
+    			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+    				<div class="cart-total mb-3">
+    					<h3>Cart Totals</h3>
+    					<p class="d-flex">
+    						<span>총 상품 금액</span>
+    						<span id="span_totalprice"></span>
+    					</p>
+    					<p class="d-flex">
+    						<span>배송비</span>
+    						<span id="span_deliveryprice"></span>
+    					</p>
+    					<p class="d-flex">
+    						<span>할인</span>
+    						<span id="span_discountedprice"></span>
+    					</p>
+    					<hr>
+    					<p class="d-flex total-price">
+    						<span>결제 예정 금액</span>
+    						<span id="span_finaltotalprice"></span>
+    					</p>
+    				</div>
+    				<p><a th:href="@{/shop/order/checkout(uid=${session.logincust.id})}" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    			</div>
+    		</div>
+			</div>
+		</section>

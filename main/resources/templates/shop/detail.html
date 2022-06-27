@@ -15,7 +15,7 @@ function pricepreview(){
 };
 
 function addcart(pid){
-	var uid = $('#uid').val();
+	var uid = $('input[name="uid"]').val();
 	var cnt = parseInt($('#quantity').val());
 	$.ajax({
 		url:'addcart',
@@ -38,6 +38,7 @@ $(document).ready(function(){
 	var qtt = parseInt($('#quantity').val());
 	var sprice = "[[${dproduct.price}]]";
 	var stock = "[[${dproduct.stock}]]";
+	
 	
 	$('#pricepreview').text(qtt * sprice);
 	
@@ -77,6 +78,20 @@ $(document).ready(function(){
      $('#btn_gocart').click(function(){
     	 var uid = $('#uid').val();
     	 location.href='cart?id='+uid;
+     });
+     
+     $('#btn_buynow').click(function(){
+    	 var uid = $('#uid').val();
+    	 $('#buynow_cnt').val($('input[name="quantity"]').val());
+    	 $('#buynow_uid').val(uid);
+    	 
+    	 $('#form_buynow').attr({
+    		 'method':'post',
+    		 'action':'order?uid='+uid
+    	 });
+    	 $('#form_buynow').submit();
+    	 
+    	 // location.href='order?id='+uid;
      });
 	    
 });
@@ -124,7 +139,8 @@ $(document).ready(function(){
 			       		<span style="color: #000;" id="pricepreview"></span>
 			       		<span style="color: #000;">원</span>
 			       	</div>
-			       	<input type="hidden" th:if="${session.logincust != null}" th:value="${session.logincust.id}" id="uid">
+			       	<!-- uid 숨김 -->
+			       	<input type="hidden" th:if="${session.logincust != null}" th:value="${session.logincust.id}" name="uid" id="uid">
 		      	</div>
 			<!-- 장바구니에 담기 / 주문 / 품절 버튼 -->
 		      	<p><a href="#" id="btn_addcart" th:if="${dproduct.stock > 0}" th:onclick="addcart([[${dproduct.id}]])" class="btn btn-black py-3 px-5">Add to Cart</a></p>
@@ -134,6 +150,15 @@ $(document).ready(function(){
 		</div>
 	</div>
 </section>
+
+<!-- Buy Now Form Start -->
+	<form id="form_buynow">
+		<input type="hidden" name="orders[0].pid" th:value="${dproduct.id}">
+		<input type="hidden" name="orders[0].cnt" id="buynow_cnt">
+		<input type="hidden" name="orders[0].uid" th:id="buynow_uid" th:if="${session.logincust != null}" th:value="${session.logincust.id}">
+	</form>
+<!-- Buy Now Form End -->
+
 
 <!-- The Modal -->
 <div class="modal" id="myModal">

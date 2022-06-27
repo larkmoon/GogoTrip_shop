@@ -172,7 +172,6 @@ public class UserController {
 			obj = cbiz.get(id);
 			m.addAttribute("custvalue",obj);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		m.addAttribute("center", "user/userinfo");

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import com.multi.biz.CartBiz;
 import com.multi.biz.CustBiz;
@@ -68,14 +69,14 @@ public class CartController {
 		return "index";
 	}
 	
+	@ResponseBody
 	@RequestMapping("/delete")
-	public String delete(Model m, String uid, int ctid) {
+	public void delete(Model m, String uid, int ctid) {
 		try {
 			crtbiz.remove(ctid);
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
-		return "redirect:?id="+uid;
 	}
 	
 	@ResponseBody
