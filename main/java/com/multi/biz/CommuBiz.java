@@ -89,5 +89,9 @@ public class CommuBiz implements Biz<Integer, CommuVO>{
 		return dao.selectbykeyword(v);
 	}
 
+	public List<CommuVO> getuid(String uid) throws Exception {
+		return dao.selectuid(uid);
+	}
+	
 
 }

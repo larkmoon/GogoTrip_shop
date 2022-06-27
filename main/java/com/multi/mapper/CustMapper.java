@@ -21,4 +21,12 @@ public interface CustMapper {
 	// yunchanbin
 	public CustVO selectemail(String email) throws Exception;
 	public CustVO selectphone(String phone) throws Exception;
+	
+	// for delete: buy.uid -> null
+	public List<Integer> selectUpdlist(String id) throws Exception;
+	public void nullBD(int id) throws Exception;
+	
+	// for delete: commu.uid -> null
+	public List<Integer> selectUpdlist_c(String id) throws Exception;
+	public void nullBD_c(int id) throws Exception;
 }

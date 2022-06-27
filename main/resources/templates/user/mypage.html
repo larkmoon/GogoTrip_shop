@@ -10,7 +10,7 @@
           		<span class="flaticon-shipped"></span>
             </div>
             <div class="media-body">
-              <h3 class="heading"><a href="#">주문 내역</a></h3>
+              <h3 class="heading"><a th:href="@{/myorder(id=${session.logincust.id})}">주문 내역</a></h3>
             </div>
           </div>      
         </div>
@@ -21,7 +21,7 @@
           		<span class="flaticon-award"></span>
             </div>
             <div class="media-body">
-              <h3 class="heading"><a href="#">내가 쓴 글</a></h3>
+              <h3 class="heading"><a th:href="@{/mypost(id=${session.logincust.id})}">내가 쓴 글</a></h3>
             </div>
           </div>      
         </div>

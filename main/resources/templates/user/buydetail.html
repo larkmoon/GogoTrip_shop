@@ -1,0 +1,36 @@
+
+<meta charset="UTF-8">
+
+
+
+
+<table class="table"  >
+  <thead class="thead-primary">
+    <tr class="text-center">
+      <th>#</th>
+      <th>주문 상픔</th>
+      <th>상품 가격</th>
+      <th>수량</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="text-center" th:each="bd : ${buydetaillist}">
+       <td>
+       	<h5 th:text="${bd.id}"></h5>
+       </td>
+		<td>
+       	<h5> <a th:text="${bd.pname}" th:href="@{/shop/product(id=${bd.pid})}"></a></h5>
+       </td>
+       <td>
+       	<h5 th:text="${bd.pprice}"></h5>
+       </td>
+       <td>
+       	<h5 th:text="${bd.cnt}"></h5>
+       </td>
+       
+
+       
+      
+  </tbody>
+</table>

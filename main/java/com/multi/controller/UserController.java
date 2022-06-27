@@ -1,5 +1,7 @@
 package com.multi.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.multi.biz.BuyBiz;
+import com.multi.biz.BuydetailBiz;
 import com.multi.biz.CartBiz;
+import com.multi.biz.CommuBiz;
 import com.multi.biz.CustBiz;
+import com.multi.vo.BuyVO;
+import com.multi.vo.BuydetailVO;
+import com.multi.vo.CommuVO;
 import com.multi.vo.CustVO;
 
 @Controller
@@ -22,6 +30,15 @@ public class UserController {
 	@Autowired
 	CartBiz crtbiz;
 	
+	@Autowired
+	CommuBiz cmbiz;
+	
+	@Autowired
+	BuyBiz bbiz;
+	
+	@Autowired
+	BuydetailBiz bdbiz;
+	
 	@ModelAttribute("cartcnt")
 	public int cartcnt(HttpSession session) {
 		int cartcnt = 0;
@@ -29,7 +46,7 @@ public class UserController {
 			CustVO obj = (CustVO) session.getAttribute("logincust");
 			String uid = obj.getId();
 			try {
-				cartcnt = crtbiz.getcartcnt(uid);			
+				cartcnt = crtbiz.getcartcnt(uid);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -54,6 +71,46 @@ public class UserController {
 		return "index";
 		
 	}
+	
+	@RequestMapping("/mypost")
+	public String mypost(Model m, String id) {
+		List<CommuVO> list = null;
+		try {
+			list = cmbiz.getuid(id);
+			m.addAttribute("postlist",list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("center", "user/mypost");
+		return "index";
+	}
+	
+	@RequestMapping("/myorder")
+	public String myorder(Model m, String id) {
+		List<BuyVO> list = null;
+		try {
+			list = bbiz.getbyid(id);
+			m.addAttribute("buylist",list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		m.addAttribute("center","user/myorder");
+		return "index";
+	}
+	@RequestMapping("buydetail")
+	public String buydetailmain(Model m, int oid) {
+		List<BuydetailVO> list = null;
+		try {
+			list = bdbiz.getoid(oid);
+			m.addAttribute("buydetaillist",list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("center","user/buydetail");
+		return "index";
+	}
+	
 	
 	@RequestMapping("/loginimpl")
 	public String loginimpl(String id, String pwd, String returnUrl, HttpSession session, Model m) {
@@ -137,6 +194,9 @@ public class UserController {
 		return result;
 	}
 	
+	
+	
+	
 	// yunchanbin
 	
 	@RequestMapping("/registerimpl")
@@ -178,20 +238,6 @@ public class UserController {
 		return "index";
 	}
 
-	@RequestMapping("/userdelete")
-	public String userdelete(String id, HttpSession session) {
-		
-		try {
-			if(session != null) {
-				session.invalidate();
-			}
-			cbiz.remove(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		}
-		return "redirect:/";
-	}
 	
 	@RequestMapping("/userupdateimpl")
 	public String userdelete(Model m, CustVO obj) {
@@ -202,5 +248,29 @@ public class UserController {
 			e.printStackTrace();
 		}
 		return "redirect:mypage?id="+obj.getId();
+	}
+	
+	@RequestMapping("userdelete")
+	public String delete(Model m, String id, HttpSession session) {
+		List<Integer> blist = null;
+		List<Integer> clist = null;
+		try {
+			if(session != null) {
+				session.invalidate();
+			}
+			blist = cbiz.getUpdlist(id);
+			clist = cbiz.getUpdlist_c(id);
+			for (Integer b : blist) {
+				cbiz.nullBeforeDelete(b);
+			}
+			for (Integer c : clist) {
+				cbiz.nullBeforeDelete_c(c);
+			}
+			cbiz.remove(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/";
 	}
 }

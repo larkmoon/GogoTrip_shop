@@ -40,9 +40,12 @@ public class BuyBiz implements Biz<Integer, BuyVO>, Buybizitf{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 	
+	@Override
+	public List<BuyVO> get() throws Exception {
+		return dao.selectall();
+	}
+
 	public BuypageItemVO selectpinfo(int pid) throws Exception{
 		return dao.selectpinfo(pid);
 	};
@@ -58,16 +61,16 @@ public class BuyBiz implements Biz<Integer, BuyVO>, Buybizitf{
 		}
 		return list;
 	}
-
-	@Override
-	public List<BuyVO> get() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public List<BuyVO> getbyid(String uid) throws Exception{
+		return dao.selectbyid(uid);
 	}
 
 
 
-	}
+	
+}
+
 	
 	
 	
