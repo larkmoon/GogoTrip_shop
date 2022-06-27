@@ -24,6 +24,7 @@ public class ProductVO {
 	private String catename;
 	private Date regdate;
 	private int stock;
+	private double discount;
 	private String imgname;
 	private String description;
 	private MultipartFile mf;

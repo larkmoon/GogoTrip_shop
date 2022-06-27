@@ -4,14 +4,24 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.multi.mapper.BuyMapper">
 	
-	<select id="select" parameterType="int" resultType="buyVO">
-		SELECT * FROM buy
+	<select id="selectpinfo" resultType="buypageItemVO">
+		SELECT id AS pid, name, price, imgname, discount FROM product
 		WHERE id=#{id}
 	</select>
-	<select id="selectall" parameterType="String" resultType="buyVO">
+
+	
+	<insert id="insert" parameterType="buyVO">
+		INSERT INTO buy VALUES (#{id},#{uid},#{phone},#{totalprice},#{payment},#{name},CURDATE(),DEFAULT,#{deliveryfee},#{usedpoint},#{zip},#{addrf},#{addrs})
+	</insert>
+	
+	<select id="selectbyid" parameterType="String" resultType="buyVO">
 		SELECT * FROM buy
 		WHERE uid=#{uid}
 	</select>
+		<select id="selectall" resultType="buyVO">
+		SELECT * FROM buy
+	</select>
+	<!-- 
 	<insert id="insert" parameterType="buyVO">
 		INSERT INTO buy VALUES (null,#{uid},#{name},#{zip},#{addrf},#{addrs},#{phone},#{totalprice},#{payment},SYSDATE())
 	</insert>
@@ -21,5 +31,5 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<delete id="delete" parameterType="int">
 		DELETE FROM buy WHERE ID=#{id}
 	</delete>
-	
+	-->
 </mapper>

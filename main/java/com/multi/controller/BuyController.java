@@ -7,14 +7,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.multi.biz.BuyBiz;
 import com.multi.biz.CartBiz;
 import com.multi.biz.CustBiz;
 import com.multi.biz.ProductBiz;
+import com.multi.vo.BuyVO;
+import com.multi.vo.BuypageVO;
 import com.multi.vo.CustVO;
 
 @Controller
-@RequestMapping("/shop/buy")
+@RequestMapping("/shop/order")
 public class BuyController {
 	
 	@Autowired
@@ -25,7 +29,10 @@ public class BuyController {
 	
 	@Autowired
 	CustBiz cbiz;
-
+	
+	@Autowired
+	BuyBiz bbiz;
+	
 	@ModelAttribute("cartcnt")
 	public int cartcnt(HttpSession session) {
 		int cartcnt = 0;
@@ -40,26 +47,60 @@ public class BuyController {
 		}
 		return cartcnt;
 	}
+
 	
-	@RequestMapping("/checkout")
-	public String checkout(Model m, String uid, HttpSession session) {
-		Object ss = session.getAttribute("logincust");
-				
-		if(ss != null) {			
-			try {
-				CustVO cust = cbiz.get(uid);
-				if(cust.toString().equals(ss.toString())) {
-					m.addAttribute("cust", cust);
-					m.addAttribute("center","buy/center");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-					
-		}else {
-			m.addAttribute("center", "user/login");
+	@RequestMapping("")
+	public String order(Model m, BuypageVO b, String uid, HttpSession session) {
+		
+		try {
+			m.addAttribute("crtlist", bbiz.selectpinfo(b.getOrders()));
+			m.addAttribute("cust", cbiz.get(uid));
+			m.addAttribute("center", "buy/checkout");
+			System.out.println(bbiz.selectpinfo(b.getOrders()));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return "index";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/checkpoint")
+	public String checkpoint(String point, String uid) {
+		String result = "";
+		
+		try {
+			int intpoint = Integer.parseInt(point);
+			CustVO c = cbiz.get(uid);
+			int cpoint = c.getPoint();
+			
+			if(cpoint <= intpoint ) {
+				result = "2";
+			}else if(intpoint  < 0) {
+				result = "0";
+			}else if(intpoint  > 0 & intpoint  <= cpoint){
+				result = "1";
+			}else {
+				result = "3";
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "3";
+		}
+		return result;
+	}
+	
+	@RequestMapping("/placeorder")
+	public String placeorder(BuyVO obj, String uid) {
+		System.out.println(obj);
+		try {
+			bbiz.register(obj);
+			System.out.println(obj);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "/index";
 	}
 	
 	

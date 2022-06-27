@@ -25,8 +25,8 @@ function checkemail(email,ck){
 }
 function checkphone(phone,ck){
 	if(phone != ck){
-		if(phone.length != 11){
-			$('#pspan').text('Length must be 11');
+		if(phone.length > 11 || phone.length < 10){
+			$('#pspan').text('Must be between 10-11 digits');
 			errorphone = 1
 		}else{
 			$.ajax({
@@ -39,9 +39,9 @@ function checkphone(phone,ck){
 						}
 						$('#pspan').text('');
 					}else if(data == "1"){
-						$('#pspan').text('This number is already exist');
+						$('#pspan').text('E-mail Already Exists');
 					}else{
-						$('#pspan').text('Input Number type');
+						$('#pspan').text('Input Only Number');
 					}
 					errorphone = data;
 				}

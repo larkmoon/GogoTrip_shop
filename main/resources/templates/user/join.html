@@ -52,7 +52,7 @@ function checkemail(email){
 }
 function checkphone(phone){
 	if(phone.length > 11 || phone.length < 10){
-		$('#pspan').text('Should be between 10-12 digits');
+		$('#pspan').text('Must be between 10-11 digits');
 		errorphone = 1
 	}else{
 		$.ajax({
@@ -67,7 +67,7 @@ function checkphone(phone){
 				}else if(data == "1"){
 					$('#pspan').text('Phone Number Already Exists');
 				}else{
-					$('#pspan').text('');
+					$('#pspan').text('Input Only Number');
 				}
 				errorphone = data;
 			}

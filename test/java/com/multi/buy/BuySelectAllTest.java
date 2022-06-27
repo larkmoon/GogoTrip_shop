@@ -17,9 +17,10 @@ class BuySelectAllTest {
 	
 	@Test
 	void contextLoads() {
-		List<BuyVO> list = null;
+		
 		try {
-			list = biz.get("id02");
+
+			List<BuyVO >list = biz.get();
 			for (BuyVO obj : list) {
 				System.out.println(obj);
 			}

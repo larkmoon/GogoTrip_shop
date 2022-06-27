@@ -38,7 +38,17 @@
 	
 	function deletecart(ctid){	
 		var uid = $('input[name="uid"]').val();
-		location.href='/shop/cart/delete?ctid='+ctid+'&uid='+uid;
+		
+			$.ajax({
+				url:'cart/delete',
+				data:{
+					'uid':uid,
+					'ctid':ctid
+					},
+				success: function(){
+					location.href='/shop/cart?id='+uid;
+				}
+			});
 	};
 	
 	
@@ -97,6 +107,46 @@
 			
 		});
 		
+		$('#btn_checkout').click(function(){
+			var uid = $('input[name="uid"]').val();
+			$('#form_checkout').attr({
+				'method':'post',
+				'action':'/shop/order?uid='+uid
+			});
+			
+			let form_contents ='';
+			let orderNumber = 0;
+			
+			$(".cart_info_td").each(function(index, element){
+				
+				if($(element).find(".individual_cart_checkbox").is(":checked") === true){
+				
+				let opid = $(element).find(".individual_pid_input").val();
+				let ocnt = $(element).find(".individual_cnt_input").val();
+				let ouid = $(element).find(".individual_uid_input").val();
+				let pid_input = "<input name='orders[" + orderNumber + "].pid' type='hidden' value='" + opid + "'>";
+				form_contents += pid_input;
+				// <input name='orders[orderNumber].pid' type='hidden' value='pid'>
+				let cnt_input = "<input name='orders[" + orderNumber + "].cnt' type='hidden' value='" + ocnt + "'>";
+				let uid_input = "<input name='orders[" + orderNumber + "].uid' type='hidden' value='" + ouid + "'>";
+				form_contents += cnt_input;
+				
+				orderNumber += 1;
+				
+				// alert(orderNumber, opid);
+				//orders[0].pid = opid
+				//orders[0].cnt = ocnt
+				
+				}
+
+			});
+		
+		$('#form_checkout').html(form_contents);
+		$('#form_checkout').submit();
+		
+
+		});
+
 	});
 
 </script>
@@ -131,53 +181,70 @@
 						      </tr>
 						    </thead>
 						    <tbody>
-						      <tr class="text-center" th:if="${crtlist != null}" th:each="c : ${crtlist}">
+						      	<tr class="text-center" th:if="${crtlist != null}" th:each="c : ${crtlist}">
 						    	   <!-- checkbox -->
-						    	   <td class="product-remove cart_info_td">
-						    	   		<input type="checkbox" class="individual_cart_checkbox input_size_20" 
-						    	   		th:onchange="getallcart();" checked="checked">
-						    	   		<input type="hidden" class="individual_price_input" th:value="${c.price}">
-						    	   		<input type="hidden" class="individual_cnt_input" th:value="${c.cnt}" th:id="'hcnt'+${c.id}">
-						    	   		<input type="hidden" class="individual_point_input" th:value="${c.point}">
-						    	   		<input type="hidden" class="individual_totalpoint_input" th:value="${c.totalpoint}" th:id="'htp'+${c.id}">
-						    	   		<input type="hidden" class="individual_totalprice_input" th:value="${c.price * c.cnt}" th:id="'hsprice'+${c.id}">
-						    	   		<input type="hidden" class="individual_saleprice_input" th:value="${c.saleprice}">
-						    	   		<input type="hidden" class="individual_discountedprice_input" th:value="${c.discountedprice}" th:id="'hdp'+${c.id}">
-						    	   	</td>						        
-							        <td class="image-prod">
-							        	<div class="img" th:if="${c.imgname != null}" th:style="'background-image:url('+'/images/'+${c.imgname}+');'"></div>
-							        	<div class="img" th:unless="${c.imgname != null}" th:style="background-image:url('/images/gogologo.png')"></div>
-							        </td>						        
-							        <!-- 상품명 -->
-							        <td class="product-name">
-							        	<h3 th:text=${c.pname}></h3>
-							        </td>
-							        <!-- price -->								        
-							        <td class="price" th:text="${c.price}" id="singleprice">
-							        	
-							        </td> 
-							        <!-- quantity -->							        
-							        <td class="quantity">
-							        	<input type="number" th:id="${c.id}"
-									     class="form-control input-number" th:value="${c.cnt}" min="0" max="100" name="quantity"
-									     th:onkeypress="if(event.keyCode=='13'){event.preventDefault(); updatecart([[${c.id}]]);}"
-									     th:onchange="updatecart([[${c.id}]]);">	
-									     <!-- 재고량(stock) 숨김 -->
-									     <input type="hidden" th:id="'stk'+${c.id}" th:value="${c.stock}">				    
-						       	   </td>
-						       		<!-- item별 금액(가격*개수) -->					        
-							       <td class="total" th:id="'stp'+${c.id}" th:text="${c.sprice}"></td>
-							        <!-- 삭제 버튼 -->		      		
-							        <td class="product-remove"><a href="#" th:onclick="deletecart([[${c.id}]])"><span class="ion-ios-close"></span></a></td>
-							       <!-- cart id 숨김 -->
-							       <td class="total" display="none"><input type="hidden" th:value=${c.id} name="ctid"></td>	
+							    	   <td class="product-remove cart_info_td">
+							    	   		<input type="checkbox" class="individual_cart_checkbox input_size_20" 
+							    	   		th:onchange="getallcart();" checked="checked">
+							    	   		<input type="hidden" class="individual_price_input" th:value="${c.price}">
+							    	   		<input type="hidden" class="individual_cnt_input" th:value="${c.cnt}" th:id="'hcnt'+${c.id}">
+							    	   		<input type="hidden" class="individual_point_input" th:value="${c.point}">
+							    	   		<input type="hidden" class="individual_totalpoint_input" th:value="${c.totalpoint}" th:id="'htp'+${c.id}">
+							    	   		<input type="hidden" class="individual_totalprice_input" th:value="${c.price * c.cnt}" th:id="'hsprice'+${c.id}">
+							    	   		<input type="hidden" class="individual_saleprice_input" th:value="${c.saleprice}">
+							    	   		<input type="hidden" class="individual_discountedprice_input" th:value="${c.discountedprice}" th:id="'hdp'+${c.id}">
+							    	   		<input type="hidden" class="individual_pid_input" th:value="${c.pid}">
+							    	   		<input type="hidden" class="individual_uid_input" th:value="${c.uid}">
+							    	   	</td>	
+							    	   	<!-- 이미지 -->			        
+								        <td class="image-prod">
+								        	<div class="img" th:if="${c.imgname != null}" th:style="'background-image:url('+'/images/'+${c.imgname}+');'"></div>
+								        	<div class="img" th:unless="${c.imgname != null}" th:style="background-image:url('/images/gogologo.png')"></div>
+								        </td>	
+								        					        
+								        <!-- 상품명 -->
+								        <td class="product-name">
+								        	<h3 th:text=${c.pname}></h3>
+								        </td>
+								        
+								        <!-- price -->								        
+								        <td class="price" th:text="${c.price}" id="singleprice">
+								        	
+								        </td> 
+								        
+								        <!-- quantity -->							        
+								        <td class="quantity">
+								        	<input type="number" th:id="${c.id}"
+										     class="form-control input-number" th:value="${c.cnt}" min="0" max="100" name="quantity"
+										     th:onkeypress="if(event.keyCode=='13'){event.preventDefault(); updatecart([[${c.id}]]);}"
+										     th:onchange="updatecart([[${c.id}]]);">	
+										     <!-- 재고량(stock) 숨김 -->
+										     <input type="hidden" th:id="'stk'+${c.id}" th:value="${c.stock}">				    
+							       	   </td>
+							       	   
+							       		<!-- item별 금액(가격*개수) -->					        
+								       <td class="total" th:id="'stp'+${c.id}" th:text="${c.sprice}"></td>
+								       
+								        <!-- 삭제 버튼 -->		      		
+								        <td class="product-remove">
+								        	<a href="#" th:onclick="deletecart([[${c.id}]])"><span class="ion-ios-close"></span></a>
+								        </td>
+							       		<!-- cart id 숨김 -->
+							       		<td class="total" display="none"><input type="hidden" th:value=${c.id} name="ctid"></td>	
 							       </tr><!-- END TR--> 
-						    </tbody>
+						      </tbody>
 						  </table>
 						  <!-- table 끝 -->
 					  </div>
     			</div>
     		</div>
+    		<!-- Checkout Form 숨김 -->
+    		<form id="form_checkout">
+    		
+    		</form>
+    		<!-- 주문 Form End-->
+    		
+    		
     		<!-- 총 금액 -->
     		<div class="row justify-content-end">
     			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
@@ -201,7 +268,7 @@
     						<span id="span_finaltotalprice"></span>
     					</p>
     				</div>
-    				<p><a th:href="@{/shop/buy/checkout(uid=${session.logincust.id})}" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    				<p><a href="#" id="btn_checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
     			</div>
     		</div>
 			</div>

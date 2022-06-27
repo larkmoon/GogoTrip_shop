@@ -89,7 +89,7 @@ public class UserController {
 	public String myorder(Model m, String id) {
 		List<BuyVO> list = null;
 		try {
-			list = bbiz.get(id);
+			list = bbiz.getbyid(id);
 			m.addAttribute("buylist",list);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -232,7 +232,6 @@ public class UserController {
 			obj = cbiz.get(id);
 			m.addAttribute("custvalue",obj);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		m.addAttribute("center", "user/userinfo");

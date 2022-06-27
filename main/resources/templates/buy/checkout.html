@@ -1,0 +1,385 @@
+<script>
+
+function getallorder(){
+	let totalPrice = 0;				
+	let totalCount = 0;				
+	let totalKind = 0;				
+	let totalPoint = 0;				
+	let deliveryPrice = 0;			
+	let usePoint = 0;				
+	let finalTotalPrice = 0;
+	
+	$(".goods_table_price_td").each(function(index, element){
+		totalPrice += parseInt($(element).find(".individual_totalPrice_input").val());
+		totalCount += parseInt($(element).find(".individual_bookCount_input").val());
+		totalKind += 1;
+		totalPoint += parseInt($(element).find(".individual_totalPoint_input").val());
+	});	
+	
+	/* 배송비 결정 */
+	if(totalPrice >= 100000){
+		deliveryPrice = 0;
+	} else if(totalPrice == 0){
+		deliveryPrice = 2500;
+	} else {
+		deliveryPrice = 2500;	
+	}
+	
+	// finalTotalPrice = totalPrice + deliveryPrice;
+	
+	
+	/* 사용 포인트 */
+	usePoint = $('#usepoint').val();
+	
+	finalTotalPrice = totalPrice + deliveryPrice - usePoint;	
+	
+	/* 값 삽입 */
+	// 총 가격
+	$('#span_totalprice').text(totalPrice.toLocaleString()+'원');
+	// 배송비
+	$('#span_deliveryprice').text(deliveryPrice + '원');
+	// 적립 포인트
+	$('#span_finaltotalpoint').text(totalPoint.toLocaleString());
+	// 배송비
+	// 최종 가격(총 가격 + 배송비)
+	$('#span_finaltotalprice').text(finalTotalPrice.toLocaleString()+'원');		
+	// 할인가(사용 포인트)
+	$('#usepoint').text(usePoint.toLocaleString());
+}
+
+	$(document).ready(function(){
+		
+		getallorder();
+		     
+		     $('#delivery_same').click(function() {
+		    	  if($('#delivery_same').is(':checked')) { 
+		    	    $('#delivery_name').val("[[${cust.name}]]");
+		    	    $('#delivery_zip').val("[[${cust.zip}]]");
+		    	    $('#delivery_addrf').val("[[${cust.addrf}]]");
+		    	    $('#delivery_addrs').val("[[${cust.addrs}]]");
+		    	    $('#delivery_phone').val("[[${cust.phone}]]");
+		    	  }                      
+		    	});
+		     
+		     $('#delivery_new').click(function() {
+		    	  if($('#delivery_new').is(':checked')) { 
+		    	    $('#delivery_name').val("");
+		    	    $('#delivery_zip').val("");
+		    	    $('#delivery_addrf').val("");
+		    	    $('#delivery_addrs').val("");
+		    	    $('#delivery_phone').val("");
+		    	  }                      
+		    	});
+		     
+		     $('#usepoint').blur(function(){
+		    	 var point = parseInt($(this).val());
+		    	 var uid = $('#uid').val();
+		 		$.ajax({
+					url:'/shop/order/checkpoint',
+					data:{
+						'point':point,
+						'uid':uid
+					},
+					success: function(result){
+						if(result == '1'){
+							$('#usepoint').val(point);
+						}else if(result == '2'){
+							$('#usepoint').val("[[${cust.point}]]");
+						}else if(result == '0'){
+							$('#usepoint').val(0);
+						}else{
+							alert('숫자를 입력하세요');
+							$('#usepoint').val(0);
+						}
+						getallorder();
+					}
+				
+				});
+		     });
+		     
+		     $('#btn_placeorder').click(function(){
+		    	
+		    	 
+		    	 //buy table (id, uid, phone, totalprice, payment, name, regdate, orderstate, deliveryfee, usedpoint, zip ,addrf, addrs) 
+		    	 timestamp =+ new Date();
+		    	 $('#oform_id').val(timestamp);
+		    	 alert(timesptamp);
+		    	 /*
+		    	 $('#oform_uid').val($('#uid').val());
+		    	 $('#oform_phone').val($('#delivery_phone').val());
+		    	 $('#oform_totalprice').val(totalPrice);
+		    	 alert(timestamp);
+		    	 $('#oform_payment').val($('input[name="payment"]').val());
+		    	 $('#oform_name').val($('#delivery_name').val());
+		    	 $('#oform_deliveryfee').val(deliveryPrice);
+		    	 $('#oform_usedpoint').val($('#usepoint').val());
+		    	 $('#oform_zip').val($('#delivery_zip').val());
+		    	 $('#oform_addrf').val($('#delivery_addrf').val());
+		    	 $('#oform_addrs').val($('#delivery_addrs').val());
+		    	 
+		    	 
+		    	 $('#oform').attr({
+		    		 'method':'post',
+		    		 'action':'/shop/order/placeorder?uid'+uid
+		    	 })
+		    	 
+		    	 $('#oform').submit();
+		    	 */
+		     });
+	    
+	});
+</script>
+
+
+<section class="ftco-section">
+   <div class="container">
+     <div class="row justify-content-center">
+     
+     <!-- 상품정보 -->
+     <section class="ftco-section ftco-cart">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="cart-list">
+    				<!-- uid 숨김 -->
+    				<input type="hidden" th:if="${session.logincust != null}" th:value="${session.logincust.id}" id="uid" name="uid">
+	    				<!-- table 시작 -->
+	    				<table class="table" th:onchange="getallcart();" >
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						        <th>&nbsp;</th>
+						        <th>Image</th>
+						        <th>Product name</th>
+						        <th>Price</th>
+						        <th>Quantity</th>
+						        <th>Total</th>
+						        <th>&nbsp;</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						      	<tr class="text-center" th:if="${crtlist != null}" th:each="c : ${crtlist}">
+						    	   <!-- 숨김 -->
+							    	   <td class="goods_table_price_td">
+											<input type="hidden" class="individual_bookPrice_input" th:value="${c.price}">
+											<input type="hidden" class="individual_salePrice_input" th:value="${c.saleprice}">
+											<input type="hidden" class="individual_bookCount_input" th:value="${c.cnt}">
+											<input type="hidden" class="individual_sprice_input" th:value="${c.sprice}">
+											<input type="hidden" class="individual_point_input" th:value="${c.point}">
+											<input type="hidden" class="individual_totalPrice_input" th:value="${c.totalprice}">
+											<input type="hidden" class="individual_totalPoint_input" th:value="${c.totalpoint}">
+											<input type="hidden" class="individual_bookId_input" th:value="${c.pid}">
+										</td>
+							    	   	<!-- 이미지 -->			        
+								        <td class="image-prod">
+								        	<div class="img" th:if="${c.imgname != null}" th:style="'background-image:url('+'/images/'+${c.imgname}+');'"></div>
+								        	<div class="img" th:unless="${c.imgname != null}" th:style="background-image:url('/images/gogologo.png')"></div>
+								        </td>	
+								        					        
+								        <!-- 상품명 -->
+								        <td class="product-name">
+								        	<h3 th:text=${c.name}></h3>
+								        </td>
+								        
+								        <!-- price -->								        
+								        <td class="price" th:text="${c.price}" id="singleprice"></td> 
+								        
+								        <!-- quantity -->							        
+								        <td class="price" th:text="${c.cnt}" id="singleprice"></td>
+							       	   
+							       		<!-- item별 금액(가격*개수) -->					        
+								       <td class="total" th:text="${c.sprice}"></td>
+							       </tr><!-- END TR--> 
+						      </tbody>
+						  </table>
+						  <!-- table 끝 -->
+					  </div>
+    			</div>
+    		</div>
+    		<!-- 총 금액 -->
+    		
+			</div>
+		</section>
+     <!-- 상품정보 End -->
+     
+     <!-- 주문자 Form Start -->
+       <div class="col-xl-7 ftco-animate">
+			<form action="#" class="billing-form">
+				<h3 class="mb-4 billing-heading">주문 정보</h3>
+        	<div class="row align-items-end">
+        		<div class="col-md-6">
+	              <div class="form-group">
+	              	<label for="firstname">주문자</label>
+	                <input type="text" class="form-control" th:value="${cust.name}" readonly="readonly">
+	                <input type="hidden" class="form-control" th:value="${cust.id}" id="uid">
+	              </div>
+           		</div>
+                <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+           	<div class="form-group">
+              	<label for="streetaddress">주소</label>
+                <input type="text" th:value="${cust.zip}" class="form-control"  readonly="readonly">
+                <input type="text" th:value="${cust.addrf}" class="form-control" readonly="readonly">
+                <input type="text" th:value="${cust.addrs}" class="form-control" readonly="readonly">
+              </div>
+           </div>
+           <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+              <div class="form-group">
+              	<label for="phone">전화번호</label>
+                <input type="text" th:value="${cust.phone}" class="form-control" readonly="readonly">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+              	<label for="emailaddress">이메일</label>
+                <input type="text" th:value="${cust.email}" class="form-control" readonly="readonly">
+              </div>
+             </div>
+             <div class="w-100"></div>
+             <div class="col-md-12">
+             	<div class="form-group mt-4">
+							<div class="radio">
+							  <label><input type="radio" name=way id="delivery_same"> 주문자 정보와 동일</label>
+							  <label><input type="radio" name=way id="delivery_new"> 새로운 배송지</label>
+							</div>
+						</div>
+             </div>
+          </div>
+        </form><!-- END -->
+   <!-- 주문자 Form End -->
+   
+   <!-- 배송지 Form Start -->
+ 		<form action="#" class="delivery_form">
+				<h3 class="mb-4 billing-heading">배송 정보</h3>
+        	<div class="row align-items-end">
+        		<div class="col-md-6">
+	              <div class="form-group">
+	              	<label for="firstname">수령인</label>
+	                <input type="text" class="form-control" id="delivery_name">
+	              </div>
+           		</div>
+                <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+           	<div class="form-group">
+              	<label for="streetaddress">주소</label>
+                <input type="text" class="form-control" id="delivery_zip" >
+                <input type="text" class="form-control" id="delivery_addrf">
+                <input type="text"  class="form-control"  id="delivery_addrs">
+              </div>
+           </div>
+           <div class="w-100"></div>
+           <div class="w-100"></div>
+           <div class="col-md-6">
+              <div class="form-group">
+              	<label for="phone">전화번호</label>
+                <input type="text" class="form-control" id="delivery_phone">
+              </div>
+            </div>
+             <div class="w-100"></div>
+          </div>
+        </form><!-- END -->
+	</div>
+<!-- 배송지 Form End -->
+		
+	<!-- Sidebar Start -->	
+		<div class="col-xl-5">
+        <div class="row mt-5 pt-3">
+        	<div class="col-md-12">
+        		<div class="cart-detail p-3 p-md-4 cart-total ">
+        			<h3 class="billing-heading mb-4">Cart Total</h3>
+    					<p class="d-flex">
+    						<span>총 상품 금액</span>
+    						<span id="span_totalprice"></span>
+    					</p>
+    					<p class="d-flex">
+    						<span>배송비</span>
+    						<span id="span_deliveryprice"></span>
+    					</p>
+    					<p class="d-flex">
+    						<span>할인</span>
+    						<span id="span_discountedprice"></span>
+    					</p>
+    					<hr>
+    					<p class="d-flex total-price">
+    						<span>결제 예정 금액</span>
+    						<span id="span_finaltotalprice"></span>
+    					</p>
+    					<p class="d-flex total-price">
+    						<span>적립 예정 포인트</span>
+    						<span id="span_finaltotalpoint"></span>
+    					</p>
+					</div>
+        	</div>
+        	
+        	<div class="col-md-12">
+        		<div class="cart-detail p-3 p-md-4">
+    					<h3 class="billing-heading mb-4">Point</h3>
+    					<span>보유 포인트: </span>
+    					<span th:text="${cust.point}"></span>
+    					<span>P</span>
+  						<form action="#" class="info">
+	              <div class="form-group">
+	              	<label for="">사용할 포인트</label>
+	                <input type="text" id="usepoint" class="form-control text-left px-3 input_point">
+	              </div>
+	            </form>
+    				</div>
+    			</div>
+        	
+        	
+        	<div class="col-md-12">
+        		<div class="cart-detail p-3 p-md-4">
+        			<h3 class="billing-heading mb-4">Payment Method</h3>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+								   <label><input type="radio" name="payment" class="mr-2" value="무통장입금"> 무통장입금</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+								   <label><input type="radio" name="payment" class="mr-2" value="신용카드"> 신용카드</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+								   <label><input type="radio" name="payment" class="mr-2" value="간편결제"> 간편결제</label>
+								</div>
+							</div>
+						</div>
+
+						<p><a href="#"class="btn btn-primary py-3 px-4" id="btn_placeorder">Place an order</a></p>
+					</div>
+        	</div>
+        </div>
+       </div> <!-- .col-md-8 -->
+   <!-- Sidebar End -->	
+     </div>
+   </div>
+ </section> <!-- .section -->
+ <!-- Place Order Form -->
+ <form id="oform">
+	<input type="hidden" id="oform_id" name="id">
+ 	<input type="hidden" id="oform_uid" name="uid">
+ 	<input type="hidden" id="oform_phone" name="phone">
+ 	<input type="hidden" id="oform_totalprice" name="totalprice">
+ 	<input type="hidden" id="oform_payment" name="payment">
+ 	<input type="hidden" id="oform_name" name="name">
+ 	<input type="hidden" id="oform_deliveryfee" name="deliveryfee">
+ 	<input type="hidden" id="oform_usedpoint" name="usedpoint">
+ 	<input type="hidden" id="oform_zip" name="zip">
+ 	<input type="hidden" id="oform_addrf" name="addrf">
+ 	<input type="hidden" id="oform_addrs" name="addrs">
+ </form>
+
+	
+    
+ 
+ 

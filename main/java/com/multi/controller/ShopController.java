@@ -105,6 +105,9 @@ public class ShopController {
 	@ResponseBody
 	@RequestMapping("/addcart")
 	public String addcart(String uid, int pid, int cnt, HttpSession session) {
+		System.out.println(uid);
+		System.out.println(pid);
+		System.out.println(cnt);
 		String result = "";
 		Object ss = session.getAttribute("logincust");	
 		if(ss != null) {
