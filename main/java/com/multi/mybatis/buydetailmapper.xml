@@ -25,4 +25,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		DELETE FROM buydetail WHERE ID=#{id}
 	</delete>
 	
+	<!-- 주문번호별 상세조회 -->
+	<select id="selectoid" parameterType="int" resultType="buydetailVO">
+		SELECT d.id, d.oid, d.pid, b.uid AS uid, b.name as uname, p.name AS pname, p.price AS pprice, d.cnt, d.delivery, b.totalprice AS totalprice 
+		FROM buydetail d
+		INNER JOIN buy b ON d.oid = b.id
+		LEFT OUTER JOIN product p ON d.pid = p.id
+		WHERE oid=#{oid}
+	</select>
+	
 </mapper>

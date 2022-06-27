@@ -8,8 +8,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM buy
 		WHERE id=#{id}
 	</select>
-	<select id="selectall" resultType="buyVO">
+	<select id="selectall" parameterType="String" resultType="buyVO">
 		SELECT * FROM buy
+		WHERE uid=#{uid}
 	</select>
 	<insert id="insert" parameterType="buyVO">
 		INSERT INTO buy VALUES (null,#{uid},#{name},#{zip},#{addrf},#{addrs},#{phone},#{totalprice},#{payment},SYSDATE())

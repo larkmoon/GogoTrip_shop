@@ -56,4 +56,22 @@ public class CustBiz implements Biz<String, CustVO> {
 	public CustVO getphone(String phone) throws Exception {
 		return dao.selectphone(phone);
 	}
+	
+	// for delete: buy.uid -> null
+	public List<Integer> getUpdlist(String id) throws Exception{
+		return dao.selectUpdlist(id);
+	}
+	
+	public void nullBeforeDelete(int id) throws Exception{
+		dao.nullBD(id);
+	}
+	
+	// for delete: commu.uid -> null
+	public List<Integer> getUpdlist_c(String id) throws Exception{
+		return dao.selectUpdlist_c(id);
+	}
+	
+	public void nullBeforeDelete_c(int id) throws Exception{
+		dao.nullBD_c(id);
+	}
 }

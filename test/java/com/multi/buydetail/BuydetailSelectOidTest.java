@@ -1,4 +1,4 @@
-package com.multi.buy;
+package com.multi.buydetail;
 
 import java.util.List;
 
@@ -6,23 +6,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.multi.biz.BuyBiz;
-import com.multi.vo.BuyVO;
+import com.multi.biz.BuydetailBiz;
+import com.multi.vo.BuydetailVO;
 
 @SpringBootTest
-class BuySelectAllTest {
+class BuydetailSelectOidTest {
 
 	@Autowired
-	BuyBiz biz;
+	BuydetailBiz biz;
 	
 	@Test
 	void contextLoads() {
-		List<BuyVO> list = null;
+		List<BuydetailVO> obj = null;
 		try {
-			list = biz.get("id02");
-			for (BuyVO obj : list) {
-				System.out.println(obj);
-			}
+			obj = biz.getoid(4);	
+			System.out.println(obj);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

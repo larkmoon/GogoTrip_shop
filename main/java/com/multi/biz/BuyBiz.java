@@ -37,9 +37,15 @@ public class BuyBiz implements Biz<Integer, BuyVO> {
 		return dao.select(k);
 	}
 
+	
+	public List<BuyVO> get(String uid) throws Exception {
+		return dao.selectall(uid);
+	}
+
 	@Override
 	public List<BuyVO> get() throws Exception {
-		return dao.selectall();
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
