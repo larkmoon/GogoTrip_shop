@@ -55,6 +55,24 @@ public class BuyVO {
 		this.totalprice = totalprice;
 		this.payment = payment;
 	}
+
+	public BuyVO(int id, String uid, String name, int zip, String addrf, String addrs, String phone, int deliveryfee,
+			int usedpoint, int totalprice, String payment) {
+		super();
+		this.id = id;
+		this.uid = uid;
+		this.name = name;
+		this.zip = zip;
+		this.addrf = addrf;
+		this.addrs = addrs;
+		this.phone = phone;
+		this.deliveryfee = deliveryfee;
+		this.usedpoint = usedpoint;
+		this.totalprice = totalprice;
+		this.payment = payment;
+	}
+	
+	
 	
 	
 	

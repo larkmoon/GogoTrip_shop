@@ -91,7 +91,7 @@ public class BuyController {
 	}
 	
 	@RequestMapping("/placeorder")
-	public String placeorder(BuyVO obj, String uid) {
+	public String placeorder(BuyVO obj) {
 		System.out.println(obj);
 		try {
 			bbiz.register(obj);
