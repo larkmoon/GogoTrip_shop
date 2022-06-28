@@ -11,6 +11,8 @@ Ecommerce website with community service for <b>travelers</b>
 
 - 2022.6.16. - 2022.6.26.
 
+- @larkmoon @yunchanbin
+
 - Goal: To build an eCommerce website with Spring MVC Framework
 
   
@@ -39,6 +41,6 @@ Ecommerce website with community service for <b>travelers</b>
   - Update / delete posts
   - Search by content/title/author
   - Search by tags / categories
-- Administrator(https://github.com/larkmoon/GogoTrip_admin.git)
+- Administrator(https://github.com/yunchanbin/GogoTrip_admin)
   - Manage users, products, orders, and posts
 
