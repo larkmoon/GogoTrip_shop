@@ -11,7 +11,7 @@ Ecommerce website with community service for <b>travelers</b>
 
 - 2022.6.16. - 2022.6.26.
 
-- @larkmoon @yunchanbin
+- Contributors: [@larkmoon](https://github.com/larkmoon) [@yunchanbin](https://github.com/yunchanbin)
 
 - Goal: To build an eCommerce website with Spring MVC Framework
 
